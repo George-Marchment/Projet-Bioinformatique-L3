@@ -41,14 +41,7 @@ fichierDonnees.close()
 
 #------------------------Etape2 : telechargement------------------------
 def telecharger(nom):
-    current_path= os.getcwd()
-    if george:
-        path= adresse_George
-    else:
-        path= adresse_Clemence
-    os.chdir(path)
     sp.call(['wget', nom])
-    os.chdir(current_path)
  
 def calculMd5(nom):
 	md5 = hb.md5(open(nom,'rb').read()).hexdigest()
@@ -60,7 +53,12 @@ def unzip(nomDossier, nomUnzip):
 		with open(nomUnzip, 'wb') as f_out:
 			shutil.copyfileobj(f_in, f_out)
 
-
+current_path= os.getcwd()
+if george:
+    path= adresse_George
+else:
+    path= adresse_Clemence
+os.chdir(path)
 for i in range(2):  #len(dicoDonnees)):
 	print("-----------------------------BOUCLE--------------------")
 	etude = dicoDonnees[i]['fastq_ftp']
@@ -91,6 +89,7 @@ for i in range(2):  #len(dicoDonnees)):
 						
 			#supp .gz
 			os.remove(nomDossier)
+os.chdir(current_path)
    
 print("FIN SCRIPT TELECHARCHEMENT")
 
