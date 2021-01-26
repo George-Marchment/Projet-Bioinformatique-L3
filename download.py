@@ -5,6 +5,7 @@ import hashlib as hb
 import gzip
 import shutil
 import os
+import variables as v
 
 
 def telecharger(nom):
@@ -20,17 +21,9 @@ def unzip(nomDossier, nomUnzip):
 		with open(nomUnzip, 'wb') as f_out:
 			shutil.copyfileobj(f_in, f_out)
 
-def mainD(telechargement):
-	#ADRESSE TELECHARGEMENT GEORGE
-	adresse_George="/media/george/USB2GM/Projet_BioInformatique/Données"
-	#ADRESSE TELECHARGEMENT CLEMENCE
-	adresse_Clemence="/home/clemence/L3/S6/ProjetBioInformatique/Projet-Bioinformatique-L3/Donnees/" 
-	#BOOL GEORGE QUI UTILISE SCRIPT 
-	#george= True #George
-	george= False #Clemence
-	#Garder en memoire nomFichier
-	tabFichier = []
+def mainDownload(telechargement):
 
+	tabFichier = []
 
 	print("DEBUT SCRIPT TELECHARCHEMENT")
 	#------------------------Etape1: lire fichier + creation dictionnaire------------------------
@@ -57,14 +50,11 @@ def mainD(telechargement):
 	
 	#------------------------Etape2 : telechargement------------------------
 	current_path= os.getcwd()
-	if george:
-	    path= adresse_George
-	else:
-	    path= adresse_Clemence
-	os.chdir(path)
+	os.chdir(v.adresseTelechargement)
 
-	for i in range (2): #(len(dicoDonnees)):
-		print('-----------------------------BOUCLE-------------------- ', i, 'sur ' , len(dicoDonnees))
+	nombreTelechargement= 2 #len(dicoDonnees)
+	for i in range (nombreTelechargement): #(len(dicoDonnees)):
+		print('-----------------------------BOUCLE-------------------- ', i+1, ' sur ' , nombreTelechargement)
 		etude = dicoDonnees[i]['fastq_ftp']
 		etude = etude.split(';')
 		
