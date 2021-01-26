@@ -63,7 +63,7 @@ def mainD(telechargement):
 	    path= adresse_Clemence
 	os.chdir(path)
 
-	for i in range(2):  #len(dicoDonnees)):
+	for i in range (2): #(len(dicoDonnees)):
 		print('-----------------------------BOUCLE-------------------- ', i, 'sur ' , len(dicoDonnees))
 		etude = dicoDonnees[i]['fastq_ftp']
 		etude = etude.split(';')
@@ -93,15 +93,11 @@ def mainD(telechargement):
 						telecharger()
 						md5 = calculMd5(nomDossier)
 						
-					unzip(nomDossier, nomUnzip)
+					#unzip(nomDossier, nomUnzip)
 				tabFichier.append(nomNom)		
 				#supp .gz
 				#os.remove(nomDossier)
 	os.chdir(current_path)
 	print("FIN SCRIPT TELECHARCHEMENT")
 	return tabFichier
-
-
-
-
 

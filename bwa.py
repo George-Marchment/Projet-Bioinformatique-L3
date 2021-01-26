@@ -16,7 +16,7 @@ adresse_Clemence="/home/clemence/L3/S6/ProjetBioInformatique/Projet-Bioinformati
 george= False #Clemence
 
 #recuperer tab
-tabFichier = mainD(False)
+tabFichier = mainD(True)
 print(tabFichier)
 
 print("DEBUT SCRIPT BWA")
@@ -39,7 +39,7 @@ print(len(tabFichier))
 for i in range (len(tabFichier)):
 	print("----------------------BOUCLE----------------------", i , " sur " , len(tabFichier)) 
 	nomZip = "../Donnees/" + tabFichier[i] + ".sam.gz"
-	cmd = "./bwa mem " + geneRef + " " + "../Donnees/" + tabFichier[i] + ".fastq"  + " | gzip -3 > " + nomZip
+	cmd = "./bwa mem " + geneRef + " " + "../Donnees/" + tabFichier[i] + ".fastq.gz"  + " | gzip -3 > " + nomZip
 	os.system(cmd)
 
 
