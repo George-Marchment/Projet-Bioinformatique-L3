@@ -7,6 +7,14 @@ import shutil
 import os
 
 
+#ADRESSE TELECHARGEMENT GEORGE
+adresse_George="/media/george/USB2GM/Projet_BioInformatique/Données"
+#ADRESSE TELECHARGEMENT CLEMENCE
+adresse_Clemence=""
+#BOOL GEORGE QUI UTILISE SCRIPT 
+george= True #George
+#george= False #Clemence
+
 print("DEBUT SCRIPT TELECHARCHEMENT")
 #------------------------Etape1: lire fichier + creation dictionnaire------------------------
 fichierDonnees = open("donnees.txt", 'r')
@@ -33,8 +41,15 @@ fichierDonnees.close()
 
 #------------------------Etape2 : telechargement------------------------
 def telecharger(nom):
-	sp.call(['wget', nom])
-
+    current_path= os.getcwd()
+    if george:
+        path= adresse_George
+    else:
+        path= adresse_Clemence
+    os.chdir(path)
+    sp.call(['wget', nom])
+    os.chdir(current_path)
+ 
 def calculMd5(nom):
 	md5 = hb.md5(open(nom,'rb').read()).hexdigest()
 	return md5
@@ -46,7 +61,7 @@ def unzip(nomDossier, nomUnzip):
 			shutil.copyfileobj(f_in, f_out)
 
 
-for i in range(3):  #len(dicoDonnees)):
+for i in range(2):  #len(dicoDonnees)):
 	print("-----------------------------BOUCLE--------------------")
 	etude = dicoDonnees[i]['fastq_ftp']
 	etude = etude.split(';')
@@ -76,7 +91,7 @@ for i in range(3):  #len(dicoDonnees)):
 						
 			#supp .gz
 			os.remove(nomDossier)
-				
+   
 print("FIN SCRIPT TELECHARCHEMENT")
 
 
