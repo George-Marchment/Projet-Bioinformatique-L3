@@ -29,7 +29,7 @@ def mainBWA(telechargement):
  
 	for i in range (len(tabFichier)):
 		print("----------------------BOUCLE----------------------", i+1 , " sur " , len(tabFichier)) 
-		nomZip = v.samRef + tabFichier[i] + ".sam.gz"
+		nomZip = v.zipSam + tabFichier[i] + ".sam.gz"
 		cmd = "./bwa mem " + v.geneRef + " " + v.samRef + tabFichier[i] + ".fastq.gz"  + " | gzip -3 > " + nomZip
 		os.system(cmd)
 
