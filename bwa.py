@@ -16,9 +16,9 @@ def unzip(nomDossier, nomUnzip):
 		with open(nomUnzip, 'wb') as f_out:
 			shutil.copyfileobj(f_in, f_out)
 
-def mainBWA(telechargement):
+def mainBWA(telechargement=True, numberDownload=-1):
 	#recuperer tab
-	tabFichier = download.mainDownload(telechargement)
+	tabFichier = download.mainDownload(telechargement, numberDownload)
 	print(tabFichier)
 	tabFig = []
 
@@ -39,6 +39,7 @@ def mainBWA(telechargement):
 	for i in range (len(tabFichier)):
 		os.chdir(v.adresseBwa)
 		print("----------------------BOUCLE----------------------", i+1 , " sur " , len(tabFichier)) 
+	
 		nomZip = v.zipSam + tabFichier[i] + ".sam.gz"
 		nomUnzip = v.zipSam + tabFichier[i] + ".sam"
 		cmd = "./bwa mem " + v.geneRef + " " + v.samRef + tabFichier[i] + ".fastq.gz"  + " | gzip -3 > " + nomZip
@@ -48,8 +49,13 @@ def mainBWA(telechargement):
 		unzip(nomZip, nomUnzip)
 		os.remove(nomZip)
 		fichierBam = v.bamRef + tabFichier[i] + ".bam"
+		#Use samtools view. The -S indicates the input is in SAM format and the "b" indicates that you'd like BAM output.
 		cmd = "samtools view -bS " + nomUnzip + " > " + fichierBam 
 		os.system(cmd)
+  
+		"""print("MarkDuplicatesSpark de : "+fichierBam)
+		cmd = "gatk MarkDuplicatesSpark -I " +fichierBam+ " -O "+ fichierBam
+		os.system(cmd)"""
 		
 		print("Samtools flagstat + creation fichier txt")
 		flag = tabFichier[i] + ".txt"
