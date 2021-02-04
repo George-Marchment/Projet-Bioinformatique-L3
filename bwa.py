@@ -53,6 +53,7 @@ def mainBWA(telechargement=True, numberDownload=-1):
 		cmd = "samtools view -bS " + nomUnzip + " > " + fichierBam 
 		os.system(cmd)
   
+  
 		"""print("MarkDuplicatesSpark de : "+fichierBam)
 		cmd = "gatk MarkDuplicatesSpark -I " +fichierBam+ " -O "+ fichierBam
 		os.system(cmd)"""
