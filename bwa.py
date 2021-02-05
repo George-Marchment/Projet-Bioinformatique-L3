@@ -1,5 +1,5 @@
 #George Marchment + Clemence Sebe
-#Script telechargement
+#Script Pipeline
 import subprocess as sp
 import hashlib as hb
 import gzip
@@ -10,57 +10,71 @@ import variables as v
 import matplotlib.pyplot as plt
 import numpy as np
 
+
+#Function that unzips a file, it takes the original file(+adress) to unzip and the name(+adress) of the unzipped file
 def unzip(nomDossier, nomUnzip):
 	#unzip
 	with gzip.open(nomDossier, 'rb') as f_in:
 		with open(nomUnzip, 'wb') as f_out:
 			shutil.copyfileobj(f_in, f_out)
 
+
 def mainBWA(telechargement=True, numberDownload=-1):
-	#recuperer tab
+	
+	#IMPORTANT: this script is called bwa.py but it does many other thing
+	# We will most likely decompose the script into multiple scripts later on
+	print("DEBUT SCRIPT BWA")
+	
+ 	#Getting Tab names 
 	tabFichier = download.mainDownload(telechargement, numberDownload)
 	print(tabFichier)
+	
+	#Tab Used for the percentage plot at the end
 	tabFig = []
 
-	print("DEBUT SCRIPT BWA")
-
+	#Saving the current path
 	current_path= os.getcwd()
+	#Moving to the adress of the BWA folder to be able to use ./bwa
 	os.chdir(v.adresseBwa)
-
-	#nom fichier genome ref : S288C_reference_sequence_R64-2-1_20150113.fsa
-	#definir index:
 	
+	#Deinfing the Index of bwa thanks to the Reference Genome
 	cmd = "./bwa index " + v.geneRef
 	os.system(cmd)
  	
-    #boucle qui parcourt tous les fichiers         ./bwa mem ref.fa read-se.fq.gz        | gzip -3 > aln-se.sam.gz
-	#cmd = "./bwa mem " + geneRef + " " + "../Donnees/" + tabFichier[i] + ".fastq.gz"  + " | gzip -3 > " + nomZip
- 
+	
+
+	#For every fastq file..
 	for i in range (len(tabFichier)):
 		os.chdir(v.adresseBwa)
-		print("----------------------BOUCLE----------------------", i+1 , " sur " , len(tabFichier)) 
+		print("----------------------BOUCLE PIPELINE----------------------", i+1 , " sur " , len(tabFichier)) 
 	
+		#.fastq -> .sam using ./bwa mem
+		print("Convertion du fichier : ", tabFichier[i] + ".fastq.gz", " en un fichier .sam")
 		nomZip = v.zipSam + tabFichier[i] + ".sam.gz"
-		nomUnzip = v.zipSam + tabFichier[i] + ".sam"
-		cmd = "./bwa mem " + v.geneRef + " " + v.samRef + tabFichier[i] + ".fastq.gz"  + " | gzip -3 > " + nomZip
+		cmd = "./bwa mem -R \"@RG\\tID:ID\\tSM:SAMPLE_NAME\\tPL:Illumina\\tPU:PU\\tLB:LB\" " + v.geneRef + " " + v.adresseTelechargement + tabFichier[i] + ".fastq.gz"  + " | gzip -3 > " + nomZip
 		os.system(cmd)
 		
-		print("Convertion du fichier : ", nomZip, " en un fichier .bam")
-		unzip(nomZip, nomUnzip)
-		os.remove(nomZip)
-		fichierBam = v.bamRef + tabFichier[i] + ".bam"
+		#.sam -> .bam using samtools
+		print("Convertion du fichier : ", tabFichier[i] + ".sam.gz", " en un fichier .bam")
+		fichierBam = tabFichier[i] + ".bam"
 		#Use samtools view. The -S indicates the input is in SAM format and the "b" indicates that you'd like BAM output.
-		cmd = "samtools view -bS " + nomUnzip + " > " + fichierBam 
+		cmd = "samtools view -bS " + nomZip + " > " + v.bamRefPreMK+fichierBam 
 		os.system(cmd)
   
+		#Marking the duplicates thanks to gatk MarfDuplicateSpark
+		print("MarkDuplicatesSpark de : "+fichierBam)
+		cmd = "gatk MarkDuplicatesSpark -I " + v.bamRefPreMK+fichierBam+ " -O "+ v.bamRefPostMK+fichierBam 
+		os.system(cmd)
   
-		"""print("MarkDuplicatesSpark de : "+fichierBam)
-		cmd = "gatk MarkDuplicatesSpark -I " +fichierBam+ " -O "+ fichierBam
-		os.system(cmd)"""
+		#These should be "un"commented to conserve memory for tests we will leave them
+		#os.remove(nomZip)
+		#os.remove(v.bamRefPreMK+fichierBam)
 		
+		#Temporary Things which are interesting for now!
+		#----------------------------------------------------------------------
 		print("Samtools flagstat + creation fichier txt")
 		flag = tabFichier[i] + ".txt"
-		cmd = "samtools flagstat " + fichierBam + " > " +  v.bamRef + flag
+		cmd = "samtools flagstat " + v.bamRefPostMK+fichierBam + " > " +  v.fichTxt + flag
 		os.system(cmd)
 	
 		print("Ajout du pourcentage dans un tableau pour figure % qui mappe")
@@ -85,7 +99,9 @@ def mainBWA(telechargement=True, numberDownload=-1):
 	ax.plot(tabFig)
 	ax.set_title("% de donnees qui mappe")
 	plt.savefig('image.png')
-		
+	#--------------------------------------------------------------------------
+	
+	#Returning to the current path
 	os.chdir(current_path)
 	print("FINI")
 	
