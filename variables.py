@@ -11,7 +11,7 @@ def initialize():
     
     #------------------------ONLY VARIABLE TO CHANGE------------------------
     #-----------------------------------------------------------------------
-    utilisateur= "george" #george or clemence
+    utilisateur= "clemence" #george or clemence
     #-----------------------------------------------------------------------
     #-----------------------------------------------------------------------
     
@@ -21,6 +21,8 @@ def initialize():
     global adresseBwa
     #Address of the reference genome in relation to the BWA adress (variable declared just above: adresseBwa)
     global geneRef
+    #Address of the gene folder reference
+    global geneRefDossier
     #Address where the .sam files will be cretead in relation to the BWA adress (adresseBwa)
     global zipSam
     #Address where the .bam files pre MarkDuplicate will be created in relation to the BWA adress (adresseBwa)
@@ -32,6 +34,10 @@ def initialize():
     global fichTxt
     global simple
     
+    # a faire 
+    global adressePostMk
+    global adresseGVCF 
+    
     #The assignment of the different variables (the adresses used on both machines)
     if utilisateur == "george":
         print("")
@@ -40,24 +46,31 @@ def initialize():
         adresseTelechargement= "/media/george/USB2GM/Projet_BioInformatique/Donnees/FASTQ/"
         adresseBwa= "/home/george/Bureau/bwa/"
         geneRef= "../../../../media/george/USB2GM/Projet_BioInformatique/Donnees/Genome/S288C_reference_sequence_R64-2-1_20150113.fsa"
+        geneRefDossier =  "/media/george/USB2GM/Projet_BioInformatique/Donnees/Genome/"  # a verifier 
         zipSam = "../../../../media/george/USB2GM/Projet_BioInformatique/Donnees/SAM/"
         bamRefPreMK= "../../../../media/george/USB2GM/Projet_BioInformatique/Donnees/BAM/BAM_PRE_MK/"
         bamRefPostMK= "../../../../media/george/USB2GM/Projet_BioInformatique/Donnees/BAM/BAM_POST_MK/"
         fichTxt = "/media/george/USB2GM/Projet_BioInformatique/Donnees/BAM/"
         simple = "/media/george/USB2GM/Projet_BioInformatique/"
+        adressePostMk = "/media/george/USB2GM/Projet_BioInformatique/Donnees/BAM/BAM_POST_MK/"  #a verfier
+        adresseGVCF = "/media/george/USB2GM/Projet_BioInformatique/Donnees/GVCF"  #a verifier 
         
     elif utilisateur == "clemence":
         print("")
         print("L'utilsateur est Clémence")
         print("")
-        simple = "/home/clemence/L3/S6/Projet-Bioinformatique-L3/"
-        adresseTelechargement= "/home/clemence/L3/S6/Projet-Bioinformatique-L3/Donnees/" 
-        adresseBwa= "/home/clemence/L3/S6/Projet-Bioinformatique-L3/bwa/"
+        simple = "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/"
+        adresseTelechargement= "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Donnees/FASTQ/" 
+        adresseBwa= "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/bwa/"
         geneRef= "../Donnees/Genome/S288C_reference_sequence_R64-2-1_20150113.fsa"
-        samRef= "../Donnees/"
-        zipSam =  "../Donnees/SamRef/"
-        bamRef = "../Donnees/FichierBam/"
-        fichTxt = "/home/clemence/L3/S6/Projet-Bioinformatique-L3/Donnees/FichierBam/"
+        geneRefDossier= "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Donnees/Genome/"
+        zipSam =  "../Donnees/SAM/"
+        bamRefPreMK= "../Donnees/BAM/BAM_PRE_MK/"
+        bamRefPostMK= "../Donnees/BAM/BAM_POST_MK/"
+        fichTxt = "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Donnees/BAM/"
+        adressePostMk = "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Donnees/BAM/BAM_POST_MK/"
+        adresseGVCF = "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Donnees/GVCF/"
+        
 
     else:               
         os.exit()

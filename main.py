@@ -3,15 +3,19 @@
 import variables as v
 import bwa
 import download
+import gvcf
 import os
 
 #Variable if you want to download the original FASTQs
 #If you want to download the FATSQs you can also remove the parameter from 'bwa.mainBWA' when it's called below
 telechargementFASTQ= False
+
+telechargementBAM= True
+
 #Number of fastq files to download +  continue to 'work' in the pipeline
 #IMPORTANT: - the corresponding number of files will only download if 'telechargementFASTQ=True'
 #           - To download all the .fastq files set 'numberFastq=-1' or remove it when 'bwa.mainBWA' is called below
-numberFastq= 2
+numberFastq= -1
  
 if __name__ == "__main__":
     
@@ -22,7 +26,10 @@ if __name__ == "__main__":
     v.initialize() 
     
     #Calling the "main" script
-    bwa.mainBWA(telechargementFASTQ, numberFastq)
+    #bwa.mainBWA(telechargementFASTQ, numberFastq)
+    
+    
+    gvcf.mainGVCF(telechargementFASTQ, telechargementBAM, numberFastq)
     
     #Set the jdk back to version 11.0
     #IMPORTANT: If the script stops during the execution (for whatever reason) make sure to set the jdk back to 11.0 manually with the same command line
