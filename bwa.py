@@ -26,8 +26,19 @@ def mainBWA(telechargement=True, telechargementBam=True, numberDownload=-1):
 	print("DEBUT SCRIPT BWA")
 	
  	#Getting Tab names 
-	tabFichier = download.mainDownload(telechargement, numberDownload)
-	print(tabFichier)
+	tabFichierNom = download.mainDownload(telechargement, numberDownload)
+	print("tabFichierNom: ", tabFichierNom)
+	print("len(tabFichierNom): ", len(tabFichierNom))
+	
+	tabFichier=[]
+	for i in range(len(tabFichierNom)):
+		if(len(tabFichierNom[i])!=1):
+			print('yes')
+			tabFichier.append(tabFichierNom[i][0][:-2])
+		else:
+			tabFichier.append(tabFichierNom[i])
+
+	print("tabFichier: ", tabFichier)
 	
 	#Tab Used for the percentage plot at the end
 	tabFig = []
@@ -61,14 +72,23 @@ def mainBWA(telechargement=True, telechargementBam=True, numberDownload=-1):
 			#.fastq -> .sam using ./bwa mem
 			print("Convertion du fichier : ", tabFichier[i] + ".fastq.gz", " en un fichier .sam")
 			nomZip = v.zipSam + tabFichier[i] + ".sam.gz"
-			cmd = "./bwa mem -R \"@RG\\tID:ID\\tSM:SAMPLE_NAME\\tPL:Illumina\\tPU:PU\\tLB:LB\" " + v.geneRef + " " + v.adresseTelechargement + tabFichier[i] + ".fastq.gz"  + " | gzip -3 > " + nomZip
+			if(len(tabFichierNom[i])!=1):
+				c=""
+				for k in range(len(tabFichierNom[i])):
+					c+= " " + v.adresseTelechargement + tabFichierNom[i][k] + ".fastq.gz"
+				cmd = "./bwa mem -R \"@RG\\tID:"+tabFichier[i]+"\\tSM:"+tabFichier[i]+"_sample"+"\\tPL:Illumina\\tPU:PU\\tLB:LB\" "  + v.geneRef + c  + " | gzip -3 > " + nomZip
+			else:
+				cmd = "./bwa mem -R \"@RG\\tID:"+tabFichier[i]+"\\tSM:"+tabFichier[i]+"_sample"+"\\tPL:Illumina\\tPU:PU\\tLB:LB\" " + v.geneRef + " " + v.adresseTelechargement + tabFichier[i] + ".fastq.gz"  + " | gzip -3 > " + nomZip
+			
 			os.system(cmd)
 			
 			#.sam -> .bam using samtools
 			print("Convertion du fichier : ", tabFichier[i] + ".sam.gz", " en un fichier .bam")
 			
 			#Use samtools view. The -S indicates the input is in SAM format and the "b" indicates that you'd like BAM output.
-			cmd = "samtools view -bS " + nomZip + " > " + v.bamRefPreMK+fichierBam 
+			#cmd = "samtools view -bS " + nomZip + " > " + v.bamRefPreMK+fichierBam
+			#Use samtools sort
+			cmd = "samtools sort -bS " + nomZip + " > " + v.bamRefPreMK+fichierBam
 			os.system(cmd)
 	  
 			#Marking the duplicates thanks to gatk MarfDuplicateSpark
@@ -77,8 +97,8 @@ def mainBWA(telechargement=True, telechargementBam=True, numberDownload=-1):
 			os.system(cmd)
 	  
 			#These should be "un"commented to conserve memory for tests we will leave them
-			os.remove(nomZip)
-			os.remove(v.bamRefPreMK+fichierBam)
+			#os.remove(nomZip)
+			#os.remove(v.bamRefPreMK+fichierBam)
 		
 				
 		#Temporary Things which are interesting for now!
@@ -90,7 +110,7 @@ def mainBWA(telechargement=True, telechargementBam=True, numberDownload=-1):
 		#Ajout donnee pour figure
 		os.chdir(v.fichTxt)
 		file = open(flag, "r")
-		for i in range (4):
+		for k in range (4):
 			line = file.readline()
 		ligne5 = file.readline()
 		l = ligne5.split()

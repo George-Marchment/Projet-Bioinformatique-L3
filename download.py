@@ -75,7 +75,7 @@ def mainDownload(telechargement=True, numD=-1):
 	#Downloading the files + adding the name of the files into tabNomFastq
 	for i in range (nombreTelechargement):
 		print('-----------------------------BOUCLE TELECHARGEMENT-------------------- ', i+1, ' sur ' , nombreTelechargement)
-
+		tabNomFastq.append([])
 		#Getting the different fastq addresses for download
 		etude = dicoDonnees[i]['fastq_ftp']
 		etude = etude.split(';')
@@ -83,9 +83,10 @@ def mainDownload(telechargement=True, numD=-1):
 		#Getting the different md5s for the fastq for verification below
 		md5fichier = dicoDonnees[i]['fastq_md5']
 		md5fichier = md5fichier.split(';')
+  
 			
 		for j in range (len(etude)):
-			if (etude[j] != ''):
+			if (etude[j] != ''):	
 				down = 'ftp://' + etude[j]
 				#Download
 				if telechargement:
@@ -112,7 +113,11 @@ def mainDownload(telechargement=True, numD=-1):
 					#unzip(nomDossier, nomUnzip)
 				
     			#Adding name of the fastq file to tabNomFastq
-				tabNomFastq.append(nameFastq)	
+				tabNomFastq[-1].append(nameFastq)
+
+			else:
+				tabNomFastq=tabNomFastq[:-1]
+		
     	
 				#supp .gz
 				#os.remove(nomDossier)

@@ -10,15 +10,16 @@ import os
 #If you want to download the FATSQs you can also remove the parameter from 'bwa.mainBWA' when it's called below
 telechargementFASTQ= False
 
-telechargementBAM= False
+telechargementBAM= True
 
-telechargementGVCF=False
+telechargementGVCF=True
 
 #Number of fastq files to download +  continue to 'work' in the pipeline
 #IMPORTANT: - the corresponding number of files will only download if 'telechargementFASTQ=True'
 #           - To download all the .fastq files set 'numberFastq=-1' or remove it when 'bwa.mainBWA' is called below
-numberFastq= -1
- 
+numberFastq= 2
+
+
 if __name__ == "__main__":
     
     #Set the jdk to version 8.0
