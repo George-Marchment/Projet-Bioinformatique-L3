@@ -32,6 +32,11 @@ def mainBWA(telechargement=True, telechargementBam=True, numberDownload=-1):
 	#Tab Used for the percentage plot at the end
 	tabFig = []
 	
+	#Tab for the plot of bedtools
+	tabBedMax = []
+	tabBedMin = []
+	tabBedMean = []
+	
 	#Tab for the finish with the name of the fichier .bam
 	tabFinish = []
 	
@@ -48,10 +53,10 @@ def mainBWA(telechargement=True, telechargementBam=True, numberDownload=-1):
 
 	#For every fastq file..
 	for i in range (len(tabFichier)):
+		print("----------------------BOUCLE BWA----------------------", i+1 , " sur " , len(tabFichier)) 
 		fichierBam = tabFichier[i] + ".bam"
+		os.chdir(v.adresseBwa)
 		if telechargementBam :
-			os.chdir(v.adresseBwa)
-			print("----------------------BOUCLE PIPELINE----------------------", i+1 , " sur " , len(tabFichier)) 
 		
 			#.fastq -> .sam using ./bwa mem
 			print("Convertion du fichier : ", tabFichier[i] + ".fastq.gz", " en un fichier .sam")
@@ -72,34 +77,57 @@ def mainBWA(telechargement=True, telechargementBam=True, numberDownload=-1):
 			os.system(cmd)
 	  
 			#These should be "un"commented to conserve memory for tests we will leave them
-			#os.remove(nomZip)
-			#os.remove(v.bamRefPreMK+fichierBam)
-					
-			#Temporary Things which are interesting for now!
-			#----------------------------------------------------------------------
-			print("Samtools flagstat + creation fichier txt")
-			flag = tabFichier[i] + ".txt"
-			cmd = "samtools flagstat " + v.bamRefPostMK+fichierBam + " > " +  v.fichTxt + flag
-			os.system(cmd)
+			os.remove(nomZip)
+			os.remove(v.bamRefPreMK+fichierBam)
 		
-			print("Ajout du pourcentage dans un tableau pour figure % qui mappe")
-			#Ajout donnee pour figure
-			os.chdir(v.fichTxt)
-			file = open(flag, "r")
-			for i in range (4):
-				line = file.readline()
-			ligne5 = file.readline()
-			l = ligne5.split()
-			cas = l[4]
-			cas = cas.split('(')
-			new = cas[1]
-			new = new.split("%")
-			num = new[0]
-			tabFig.append(num)
-			file.close()
-		
+				
+		#Temporary Things which are interesting for now!
+		#----------------------------------------------------------------------
+		print("Samtools flagstat + creation fichier txt")
+		flag = tabFichier[i] + ".txt"
+		cmd = "samtools flagstat " + v.bamRefPostMK+fichierBam + " > " +  v.fichTxt + flag
+		os.system(cmd)
+		#Ajout donnee pour figure
+		os.chdir(v.fichTxt)
+		file = open(flag, "r")
+		for i in range (4):
+			line = file.readline()
+		ligne5 = file.readline()
+		l = ligne5.split()
+		cas = l[4]
+		cas = cas.split('(')
+		new = cas[1]
+		new = new.split("%")
+		num = new[0]
+		tabFig.append(float(num))
+		file.close()
 		#ajout ds tab pour la suite
 		tabFinish.append(fichierBam)
+		
+		
+		#BedTools
+		#-------------------------------------------------------------------
+		print("Bedtools pour calculer max, min, moyenne de la couverture")
+		os.chdir(v.adresseBwa)
+		bedfile = tabFichier[i] + "_bed.txt"
+		cmd = "bedtools genomecov -ibam " + v.bamRefPostMK+fichierBam + " -bga > " + v.fichTxt + bedfile
+		os.system(cmd)
+		os.chdir(v.fichTxt)
+		tabDonnees = []
+		file = open(bedfile, "r")
+		line = file.readlines()
+		for ligne in line:
+			test = ligne.split()
+			tabDonnees.append(float(test[-1]))
+		file.close()
+		tab = np.array(tabDonnees)
+		print(tab)
+		maxi = np.max(tab)
+		mini = np.min(tab)
+		moyenne = np.mean(tab)
+		tabBedMax.append(maxi)
+		tabBedMin.append(mini)
+		tabBedMean.append(moyenne)
 	
 	os.chdir(v.simple)
 	print("Creation figure")
@@ -107,6 +135,23 @@ def mainBWA(telechargement=True, telechargementBam=True, numberDownload=-1):
 	ax.plot(tabFig)
 	ax.set_title("% de donnees qui mappe")
 	plt.savefig('image.png')
+	
+	print("Figure pour bedtools")
+	fig,ax = plt.subplots()
+	ax.plot(tabBedMax) # arevoir 
+	ax.set_title("Couverture : max")
+	ax.legend()
+	plt.savefig('imageCouvertureMax.png')
+	fig,ax = plt.subplots()
+	ax.plot(tabBedMin) # arevoir 
+	ax.set_title("Couverture : min")
+	ax.legend()
+	plt.savefig('imageCouvertureMin.png')
+	fig,ax = plt.subplots()
+	ax.plot(tabBedMean) # arevoir 
+	ax.set_title("Couverture : moyenne")
+	ax.legend()
+	plt.savefig('imageCouvertureMoyenne.png')
 	#--------------------------------------------------------------------------
 	
 	#Returning to the current path

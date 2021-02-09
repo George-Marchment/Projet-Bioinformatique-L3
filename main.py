@@ -12,10 +12,12 @@ telechargementFASTQ= False
 
 telechargementBAM= False
 
+telechargementGVCF=False
+
 #Number of fastq files to download +  continue to 'work' in the pipeline
 #IMPORTANT: - the corresponding number of files will only download if 'telechargementFASTQ=True'
 #           - To download all the .fastq files set 'numberFastq=-1' or remove it when 'bwa.mainBWA' is called below
-numberFastq= 2
+numberFastq= -1
  
 if __name__ == "__main__":
     
@@ -29,7 +31,7 @@ if __name__ == "__main__":
     #bwa.mainBWA(telechargementFASTQ, numberFastq)
     
     
-    gvcf.mainGVCF(telechargementFASTQ, telechargementBAM, numberFastq)
+    gvcf.mainGVCF(telechargementFASTQ, telechargementBAM,telechargementGVCF, numberFastq)
     
     #Set the jdk back to version 11.0
     #IMPORTANT: If the script stops during the execution (for whatever reason) make sure to set the jdk back to 11.0 manually with the same command line
