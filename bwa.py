@@ -111,5 +111,6 @@ def mainBWA(telechargement=True, telechargementBam=True, numberDownload=-1):
 	
 	#Returning to the current path
 	os.chdir(current_path)
-	return tabFinish
+	tabFichierFASTQ= tabFichier
+	return tabFichierFASTQ, tabFinish
 	

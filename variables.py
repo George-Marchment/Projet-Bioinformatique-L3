@@ -11,7 +11,7 @@ def initialize():
     
     #------------------------ONLY VARIABLE TO CHANGE------------------------
     #-----------------------------------------------------------------------
-    utilisateur= "clemence" #george or clemence
+    utilisateur= "george" #george or clemence
     #-----------------------------------------------------------------------
     #-----------------------------------------------------------------------
     
@@ -53,7 +53,7 @@ def initialize():
         fichTxt = "/media/george/USB2GM/Projet_BioInformatique/Donnees/BAM/"
         simple = "/media/george/USB2GM/Projet_BioInformatique/"
         adressePostMk = "/media/george/USB2GM/Projet_BioInformatique/Donnees/BAM/BAM_POST_MK/"  #a verfier
-        adresseGVCF = "/media/george/USB2GM/Projet_BioInformatique/Donnees/GVCF"  #a verifier 
+        adresseGVCF = "/media/george/USB2GM/Projet_BioInformatique/Donnees/GVCF/"  #a verifier 
         
     elif utilisateur == "clemence":
         print("")

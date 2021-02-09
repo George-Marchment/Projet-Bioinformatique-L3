@@ -14,8 +14,7 @@ import numpy as np
 
 def mainGVCF(telechargement=True, telechargementBam=True,numberDownload=-1):
 	#Calling the "main" script
-	nom = download.mainDownload(False, numberDownload)
-	tabFichier = bwa.mainBWA(telechargement,telechargementBam, numberDownload)
+	nom, tabFichier = bwa.mainBWA(telechargement,telechargementBam, numberDownload)
 	
 	#initialisation creation fichier pour fichier de ref
 	#Saving the current path
@@ -37,8 +36,7 @@ def mainGVCF(telechargement=True, telechargementBam=True,numberDownload=-1):
 	
 	os.chdir(current_path)
 	for i in range (len(tabFichier)):
-		
-		print("HaplotypeCaller sur " + tabFichier[i]) 
+		print("----------------------BOUCLE HAPlOTYPECALLER----------------------", i+1 , " sur " , len(tabFichier)) 
 		ref = v.geneRefDossier + fasta 
 		entree = v.adressePostMk + tabFichier[i]
 		sortie = v.adresseGVCF + nom[i] + ".g.vcf.gz"
