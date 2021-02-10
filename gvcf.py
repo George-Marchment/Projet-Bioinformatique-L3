@@ -43,7 +43,7 @@ def mainGVCF(telechargement=True, telechargementBam=True,telechargementGVCF=Fals
 			entree = v.adressePostMk + tabFichier[i]
 			sortie = v.adresseGVCF + nom[i] + ".g.vcf.gz"
 			cmd = "gatk HaplotypeCaller -R " + ref + " -I " + entree + " -O " + sortie + " -ERC GVCF"
-			os.system(cmd)
+			os.system(cmd)    
 
 
 	print("FINI")

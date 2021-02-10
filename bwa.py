@@ -51,14 +51,15 @@ def mainBWA(telechargement=True, telechargementBam=True, numberDownload=-1):
 	#Tab for the finish with the name of the fichier .bam
 	tabFinish = []
 	
+	
 	#Saving the current path
 	current_path= os.getcwd()
 	#Moving to the adress of the BWA folder to be able to use ./bwa
 	os.chdir(v.adresseBwa)
-	
-	#Deinfing the Index of bwa thanks to the Reference Genome
-	cmd = "./bwa index " + v.geneRef
-	os.system(cmd)
+	if telechargementBam:
+		#Deinfing the Index of bwa thanks to the Reference Genome
+		cmd = "./bwa index " + v.geneRef
+		os.system(cmd)
  	
 	
 
@@ -86,19 +87,24 @@ def mainBWA(telechargement=True, telechargementBam=True, numberDownload=-1):
 			print("Convertion du fichier : ", tabFichier[i] + ".sam.gz", " en un fichier .bam")
 			
 			#Use samtools view. The -S indicates the input is in SAM format and the "b" indicates that you'd like BAM output.
-			#cmd = "samtools view -bS " + nomZip + " > " + v.bamRefPreMK+fichierBam
-			#Use samtools sort
-			cmd = "samtools sort -bS " + nomZip + " > " + v.bamRefPreMK+fichierBam
+			cmd = "samtools view -bS " + nomZip + " > " + v.bamRefPreMK+fichierBam
 			os.system(cmd)
-	  
+			
+			#Use samtools sort
+			print("Samtools sort:")
+			trie = tabFichier[i] + "_sorted.bam"
+			cmd = "samtools sort " + v.bamRefPreMK+fichierBam + " > " + v.bamRefPreMK + trie
+			os.system(cmd)
+	  		
 			#Marking the duplicates thanks to gatk MarfDuplicateSpark
-			print("MarkDuplicatesSpark de : "+fichierBam)
-			cmd = "gatk MarkDuplicatesSpark -I " + v.bamRefPreMK+ fichierBam+ " -O "+ v.bamRefPostMK+fichierBam 
+			print("MarkDuplicatesSpark de : "+ trie)
+			cmd = "gatk MarkDuplicatesSpark -I " + v.bamRefPreMK+ trie + " -O "+ v.bamRefPostMK+fichierBam 
 			os.system(cmd)
 	  
 			#These should be "un"commented to conserve memory for tests we will leave them
 			#os.remove(nomZip)
 			#os.remove(v.bamRefPreMK+fichierBam)
+			#os.remove(v.bamRefPreMK+trie)
 		
 				
 		#Temporary Things which are interesting for now!
@@ -124,7 +130,7 @@ def mainBWA(telechargement=True, telechargementBam=True, numberDownload=-1):
 		#ajout ds tab pour la suite
 		tabFinish.append(fichierBam)
 		
-		
+		"""
 		#BedTools
 		#-------------------------------------------------------------------
 		print("Bedtools pour calculer max, min, moyenne de la couverture")
@@ -148,7 +154,7 @@ def mainBWA(telechargement=True, telechargementBam=True, numberDownload=-1):
 		tabBedMax.append(maxi)
 		tabBedMin.append(mini)
 		tabBedMean.append(moyenne)
-	
+	"""
 	os.chdir(v.simple)
 	print("Creation figure")
 	fig,ax = plt.subplots()
@@ -160,20 +166,17 @@ def mainBWA(telechargement=True, telechargementBam=True, numberDownload=-1):
 	fig,ax = plt.subplots()
 	ax.plot(tabBedMax) # arevoir 
 	ax.set_title("Couverture : max")
-	ax.legend()
 	plt.savefig('imageCouvertureMax.png')
 	fig,ax = plt.subplots()
 	ax.plot(tabBedMin) # arevoir 
 	ax.set_title("Couverture : min")
-	ax.legend()
 	plt.savefig('imageCouvertureMin.png')
 	fig,ax = plt.subplots()
 	ax.plot(tabBedMean) # arevoir 
 	ax.set_title("Couverture : moyenne")
-	ax.legend()
 	plt.savefig('imageCouvertureMoyenne.png')
 	#--------------------------------------------------------------------------
-	
+
 	#Returning to the current path
 	os.chdir(current_path)
 	tabFichierFASTQ= tabFichier
