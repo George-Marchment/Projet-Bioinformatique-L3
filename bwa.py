@@ -33,10 +33,9 @@ def mainBWA(telechargement=True, telechargementBam=True, numberDownload=-1):
 	tabFichier=[]
 	for i in range(len(tabFichierNom)):
 		if(len(tabFichierNom[i])!=1):
-			print('yes')
 			tabFichier.append(tabFichierNom[i][0][:-2])
 		else:
-			tabFichier.append(tabFichierNom[i])
+			tabFichier.append(tabFichierNom[i][0])
 
 	print("tabFichier: ", tabFichier)
 	
@@ -102,9 +101,9 @@ def mainBWA(telechargement=True, telechargementBam=True, numberDownload=-1):
 			os.system(cmd)
 	  
 			#These should be "un"commented to conserve memory for tests we will leave them
-			#os.remove(nomZip)
-			#os.remove(v.bamRefPreMK+fichierBam)
-			#os.remove(v.bamRefPreMK+trie)
+			os.remove(nomZip)
+			os.remove(v.bamRefPreMK+fichierBam)
+			os.remove(v.bamRefPreMK+trie)
 		
 				
 		#Temporary Things which are interesting for now!
@@ -130,7 +129,7 @@ def mainBWA(telechargement=True, telechargementBam=True, numberDownload=-1):
 		#ajout ds tab pour la suite
 		tabFinish.append(fichierBam)
 		
-		"""
+		
 		#BedTools
 		#-------------------------------------------------------------------
 		print("Bedtools pour calculer max, min, moyenne de la couverture")
@@ -154,13 +153,13 @@ def mainBWA(telechargement=True, telechargementBam=True, numberDownload=-1):
 		tabBedMax.append(maxi)
 		tabBedMin.append(mini)
 		tabBedMean.append(moyenne)
-	"""
+	
 	os.chdir(v.simple)
 	print("Creation figure")
 	fig,ax = plt.subplots()
 	ax.plot(tabFig)
-	ax.set_title("% de donnees qui mappe")
-	plt.savefig('image.png')
+	ax.set_title("Pourcentage de donnees qui mappe")
+	plt.savefig('imageMapping.png')
 	
 	print("Figure pour bedtools")
 	fig,ax = plt.subplots()

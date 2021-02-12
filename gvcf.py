@@ -12,9 +12,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def mainGVCF(telechargement=True, telechargementBam=True,telechargementGVCF=False, numberDownload=-1):
+def mainGVCF(telechargement=True, telechargementBam=True,telechargementGVCF=False,createBbOutput=False, numberDownload=-1):
 	#Calling the "main" script
-	nom, tabFichier = bwa.mainBWA(telechargement,telechargementBam, numberDownload)
+	tabFichierNom, tabFichier = bwa.mainBWA(telechargement,telechargementBam, numberDownload)
 	
 	
 	if telechargementGVCF:
@@ -35,16 +35,38 @@ def mainGVCF(telechargement=True, telechargementBam=True,telechargementGVCF=Fals
 		cmd = "samtools faidx " + fasta
 		os.system(cmd)
 		
+		#rajouter lien pour cohort
+		fichier = open(v.donnees + "cohort.sample_map", "a")
 		
 		os.chdir(current_path)
 		for i in range (len(tabFichier)):
 			print("----------------------BOUCLE HAPlOTYPECALLER----------------------", i+1 , " sur " , len(tabFichier)) 
 			ref = v.geneRefDossier + fasta 
 			entree = v.adressePostMk + tabFichier[i]
-			sortie = v.adresseGVCF + nom[i] + ".g.vcf.gz"
+			sortie = v.adresseGVCF + tabFichierNom[i] + ".g.vcf.gz"
+			sortiebis = v.adresseGVCF + tabFichierNom[i]
 			cmd = "gatk HaplotypeCaller -R " + ref + " -I " + entree + " -O " + sortie + " -ERC GVCF"
-			os.system(cmd)    
-
-
+			os.system(cmd) 
+		
+		
+	#rajouter lien pour cohort
+	fichier = open(v.donnees + "cohort.sample_map", "a")	
+	for i in range (len(tabFichier)):
+		sortie = v.adresseGVCF + tabFichierNom[i] + ".g.vcf.gz"
+		sortiebis = v.adresseGVCF + tabFichierNom[i]	
+		ligne = sortiebis + "\t" + sortie + "\n"
+		fichier.write(ligne)
+	fichier.close()
+	
+	if createBbOutput:
+		#create BDD
+		cmd = "gatk GenomicsDBImport --genomicsdb-workspace-path " +v.donnees + "my_database " + "--sample-name-map " + v.donnees + "cohort.sample_map" + " -L " + v.donnees +  "chromosome.list"
+		os.system(cmd)
+		
+		#Create final vcf
+		cmd = "gatk GenotypeGVCFs -R " + v.geneRefDossier + "S288C_reference_sequence_R64-2-1_20150113.fasta" + "                  -V gendb://"+ v.donnees+"my_database -O " + v.donnees + "output.vcf.gz"
+		os.system(cmd)
+		shutil.rmtree(v.donnees + "my_database")
+	os.remove(v.donnees + "cohort.sample_map")
 	print("FINI")
 	

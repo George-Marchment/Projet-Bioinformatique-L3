@@ -19,6 +19,8 @@ def initialize():
     global adresseTelechargement
     #Address where the BWA folder is situated
     global adresseBwa
+    
+    global donnees
     #Address of the reference genome in relation to the BWA adress (variable declared just above: adresseBwa)
     global geneRef
     #Address of the gene folder reference
@@ -45,6 +47,7 @@ def initialize():
         print("")
         adresseTelechargement= "/media/george/USB2GM/Projet_BioInformatique/Donnees/FASTQ/"
         adresseBwa= "/home/george/Bureau/bwa/"
+        donnees = "../../../../media/george/USB2GM/Projet_BioInformatique/Donnees/"   #a revoir
         geneRef= "../../../../media/george/USB2GM/Projet_BioInformatique/Donnees/Genome/S288C_reference_sequence_R64-2-1_20150113.fsa"
         geneRefDossier =  "/media/george/USB2GM/Projet_BioInformatique/Donnees/Genome/"  # a verifier 
         zipSam = "../../../../media/george/USB2GM/Projet_BioInformatique/Donnees/SAM/"
@@ -60,6 +63,7 @@ def initialize():
         print("L'utilsateur est Clémence")
         print("")
         simple = "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/"
+        donnees = "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Donnees/"
         adresseTelechargement= "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Donnees/FASTQ/" 
         adresseBwa= "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/bwa/"
         geneRef= "../Donnees/Genome/S288C_reference_sequence_R64-2-1_20150113.fsa"
@@ -70,6 +74,7 @@ def initialize():
         fichTxt = "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Donnees/BAM/"
         adressePostMk = "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Donnees/BAM/BAM_POST_MK/"
         adresseGVCF = "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Donnees/GVCF/"
+        
         
 
     else:               
