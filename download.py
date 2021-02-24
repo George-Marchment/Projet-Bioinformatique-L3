@@ -40,7 +40,10 @@ def mainDownload(telechargement=True, numD=-1):
 	#'Spliting' the file from the lignes
 	lignes = fichierDonnees.readlines()
 	dicoDonnees = []
- 
+	
+	#tableau pour avoir nom sample_alias
+	tabSampleAlias = []
+ 	
 	#The original names of the columns 
 	prems = lignes[0].split('\t')
 	prems[-1] = prems[-1].strip() #enlever \n
@@ -56,7 +59,7 @@ def mainDownload(telechargement=True, numD=-1):
 			donnees.update({prems[j]: temp[j]})
    
 		dicoDonnees.append(donnees)
-  
+		  	
 	fichierDonnees.close()
 	
 	#------------------------Step 2 : Downloading file (optional) + filling tabNomFastq------------------------
@@ -74,7 +77,9 @@ def mainDownload(telechargement=True, numD=-1):
   
 	#Downloading the files + adding the name of the files into tabNomFastq
 	for i in range (nombreTelechargement):
-		print('-----------------------------BOUCLE TELECHARGEMENT-------------------- ', i+1, ' sur ' , nombreTelechargement)
+		if telechargement:
+			print('-----------------------------BOUCLE TELECHARGEMENT-------------------- ', i+1, ' sur ' , nombreTelechargement)
+		
 		tabNomFastq.append([])
 		#Getting the different fastq addresses for download
 		etude = dicoDonnees[i]['fastq_ftp']
@@ -83,7 +88,10 @@ def mainDownload(telechargement=True, numD=-1):
 		#Getting the different md5s for the fastq for verification below
 		md5fichier = dicoDonnees[i]['fastq_md5']
 		md5fichier = md5fichier.split(';')
-  
+		
+		#Ajout de sample alias si on a au moins un fastq
+		if (dicoDonnees[i]['fastq_ftp'] != ''):
+			tabSampleAlias.append(dicoDonnees[i]['sample_alias']) 	 
 			
 		for j in range (len(etude)):
 			if (etude[j] != ''):	
@@ -125,5 +133,5 @@ def mainDownload(telechargement=True, numD=-1):
     #Returning to the original adress
 	os.chdir(current_path)
 	print("FIN SCRIPT TELECHARCHEMENT")
-	return tabNomFastq
+	return tabNomFastq, tabSampleAlias
 

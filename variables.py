@@ -39,6 +39,7 @@ def initialize():
     # a faire 
     global adressePostMk
     global adresseGVCF 
+    global image
     
     #The assignment of the different variables (the adresses used on both machines)
     if utilisateur == "george":
@@ -47,22 +48,24 @@ def initialize():
         print("")
         adresseTelechargement= "/media/george/USB2GM/Projet_BioInformatique/Donnees/FASTQ/"
         adresseBwa= "/home/george/Bureau/bwa/"
-        donnees = "../../../../media/george/USB2GM/Projet_BioInformatique/Donnees/"   #a revoir
+        donnees = "../../../../media/george/USB2GM/Projet_BioInformatique/Donnees/" 
         geneRef= "../../../../media/george/USB2GM/Projet_BioInformatique/Donnees/Genome/S288C_reference_sequence_R64-2-1_20150113.fsa"
-        geneRefDossier =  "/media/george/USB2GM/Projet_BioInformatique/Donnees/Genome/"  # a verifier 
+        geneRefDossier =  "/media/george/USB2GM/Projet_BioInformatique/Donnees/Genome/"  
         zipSam = "../../../../media/george/USB2GM/Projet_BioInformatique/Donnees/SAM/"
         bamRefPreMK= "../../../../media/george/USB2GM/Projet_BioInformatique/Donnees/BAM/BAM_PRE_MK/"
         bamRefPostMK= "../../../../media/george/USB2GM/Projet_BioInformatique/Donnees/BAM/BAM_POST_MK/"
         fichTxt = "/media/george/USB2GM/Projet_BioInformatique/Donnees/BAM/"
         simple = "/media/george/USB2GM/Projet_BioInformatique/"
-        adressePostMk = "/media/george/USB2GM/Projet_BioInformatique/Donnees/BAM/BAM_POST_MK/"  #a verfier
-        adresseGVCF = "/media/george/USB2GM/Projet_BioInformatique/Donnees/GVCF/"  #a verifier 
+        adressePostMk = "/media/george/USB2GM/Projet_BioInformatique/Donnees/BAM/BAM_POST_MK/"  
+        adresseGVCF = "/media/george/USB2GM/Projet_BioInformatique/Donnees/GVCF/"  
+        image = "/media/george/USB2GM/Projet_BioInformatique/Images" # a revoir 
         
     elif utilisateur == "clemence":
         print("")
         print("L'utilsateur est Clémence")
         print("")
         simple = "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/"
+        image = "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Images"
         donnees = "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Donnees/"
         adresseTelechargement= "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Donnees/FASTQ/" 
         adresseBwa= "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/bwa/"

@@ -1,21 +1,14 @@
 #George Marchment + Clemence Sebe
-#Script Pipeline
-import subprocess as sp
-import hashlib as hb
+#Script GVCF
 import gzip
 import shutil
 import os
-import download
-import bwa
 import variables as v
-import matplotlib.pyplot as plt
-import numpy as np
 
 
-def mainGVCF(telechargement=True, telechargementBam=True,telechargementGVCF=False,createBbOutput=False, numberDownload=-1):
-	#Calling the "main" script
-	tabFichierNom, tabFichier = bwa.mainBWA(telechargement,telechargementBam, numberDownload)
-	
+
+def mainGVCF(telechargementGVCF, createBbOutput, tabFichierNom, tabFichierBam, tabSampleAlias):
+	print("SCRIPT GVCF")
 	
 	if telechargementGVCF:
 		#initialisation creation fichier pour fichier de ref
@@ -39,10 +32,10 @@ def mainGVCF(telechargement=True, telechargementBam=True,telechargementGVCF=Fals
 		fichier = open(v.donnees + "cohort.sample_map", "a")
 		
 		os.chdir(current_path)
-		for i in range (len(tabFichier)):
+		for i in range (len(tabFichierBam)):
 			print("----------------------BOUCLE HAPlOTYPECALLER----------------------", i+1 , " sur " , len(tabFichier)) 
 			ref = v.geneRefDossier + fasta 
-			entree = v.adressePostMk + tabFichier[i]
+			entree = v.adressePostMk + tabFichierBam[i]
 			sortie = v.adresseGVCF + tabFichierNom[i] + ".g.vcf.gz"
 			sortiebis = v.adresseGVCF + tabFichierNom[i]
 			cmd = "gatk HaplotypeCaller -R " + ref + " -I " + entree + " -O " + sortie + " -ERC GVCF"
@@ -51,9 +44,9 @@ def mainGVCF(telechargement=True, telechargementBam=True,telechargementGVCF=Fals
 		
 	#rajouter lien pour cohort
 	fichier = open(v.donnees + "cohort.sample_map", "a")	
-	for i in range (len(tabFichier)):
+	for i in range (len(tabFichierBam)):
 		sortie = v.adresseGVCF + tabFichierNom[i] + ".g.vcf.gz"
-		sortiebis = v.adresseGVCF + tabFichierNom[i]	
+		sortiebis = tabSampleAlias[i]	
 		ligne = sortiebis + "\t" + sortie + "\n"
 		fichier.write(ligne)
 	fichier.close()
@@ -64,9 +57,15 @@ def mainGVCF(telechargement=True, telechargementBam=True,telechargementGVCF=Fals
 		os.system(cmd)
 		
 		#Create final vcf
-		cmd = "gatk GenotypeGVCFs -R " + v.geneRefDossier + "S288C_reference_sequence_R64-2-1_20150113.fasta" + "                  -V gendb://"+ v.donnees+"my_database -O " + v.donnees + "output.vcf.gz"
+		cmd = "gatk GenotypeGVCFs -R " + v.geneRefDossier + "S288C_reference_sequence_R64-2-1_20150113.fasta" + " -V gendb://"+ v.donnees+"my_database -O " + v.donnees + "output.vcf.gz"
 		os.system(cmd)
 		shutil.rmtree(v.donnees + "my_database")
+		
+		#info SNP Indel taille
+		fichier = open("informationSnpIndel.txt", "a")	
+		# a faire
+		fichier.close()
+		
 	os.remove(v.donnees + "cohort.sample_map")
-	print("FINI")
+	print("FIN SCRIPT GVCF")
 	
