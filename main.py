@@ -27,6 +27,8 @@ imageMapping = True
 
 imageCouv = True
 
+nbDonnees = True
+
 imageSNP = True
 
 imageIndel = True
@@ -62,7 +64,7 @@ if __name__ == "__main__":
     filtration.mainFiltration(telechargementFiltreSNP, telechargementFiltreINDEL)
   
     #Figure 
-    figure.mainFigure(tabFichierNomNew, imageMapping, imageCouv, imageSNP, imageIndel)
+    figure.mainFigure(tabFichierNomNew, imageMapping, imageCouv, nbDonnees, imageSNP, imageIndel)
     
     #Set the jdk back to version 11.0
     #IMPORTANT: If the script stops during the execution (for whatever reason) make sure to set the jdk back to 11.0 manually with the same command line

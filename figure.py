@@ -6,7 +6,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def mainFigure(tabFichier, imageMapping, imageCouv, imageSNP, imageIndel):
+def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees, imageSNP, imageIndel):
+	print("DEBUT SCRIPT FIGURE")
 	current_path= os.getcwd()
 	
 	#Tab for Mapping
@@ -17,53 +18,54 @@ def mainFigure(tabFichier, imageMapping, imageCouv, imageSNP, imageIndel):
 	den = num = 0 
 
 
-	for i in range (len(tabFichier)):
-		print("----------------- Figure ", i , " sur ", len(tabFichier) , "---------------------")
-		os.chdir(v.adresseBwa)
-		fichierBam = tabFichier[i] + ".bam"
-		
-		if imageMapping:
-			#Mapping
-			#---------------------------------------------------------------
-			print("Samtools flagstat + creation fichier txt")
-			flag = tabFichier[i] + ".txt"
-			cmd = "samtools flagstat " + v.bamRefPostMK+fichierBam + " > " +  v.fichTxt + flag
-			#os.system(cmd)
-			#Ajout donnee pour figure
-			os.chdir(v.fichTxt)
-			file = open(flag, "r")
-			for k in range (4):
-				line = file.readline()
-			ligne5 = file.readline()
-			l = ligne5.split()
-			cas = l[4]
-			cas = cas.split('(')
-			new = cas[1]
-			new = new.split("%")
-			num = new[0]
-			tabFigMapping.append(float(num))
-			file.close()
-
-		if imageCouv:
-			#BedTools
-			#-------------------------------------------------------------------
-			print("Bedtools pour calculer max, min, moyenne de la couverture")
+	if imageMapping or imageCouv:
+		for i in range (len(tabFichier)):
+			print("----------------- Figure ", i , " sur ", len(tabFichier) , "---------------------")
 			os.chdir(v.adresseBwa)
-			bedfile = tabFichier[i] + "_bed.txt"
-			cmd = "bedtools genomecov -ibam " + v.bamRefPostMK+fichierBam + " -bga > " + v.fichTxt + bedfile
-			#os.system(cmd)
-			os.chdir(v.fichTxt)
-			den = num = 0
-			file = open(bedfile, "r")
-			line = file.readlines()
-			for ligne in line:
-				test = ligne.split()
-				if (test[0] != "ref|NC_001224|"):
-					tmp = np.abs(float(test[2])-1 - float(test[1]))
-					den += tmp*float(test[-1])
-					num += tmp
-			file.close()
-			tabBedMean.append(den/num)
+			fichierBam = tabFichier[i] + ".bam"
+			
+			if imageMapping:
+				#Mapping
+				#---------------------------------------------------------------
+				print("Samtools flagstat + creation fichier txt")
+				flag = tabFichier[i] + ".txt"
+				cmd = "samtools flagstat " + v.bamRefPostMK+fichierBam + " > " +  v.fichTxt + flag
+				#os.system(cmd)
+				#Ajout donnee pour figure
+				os.chdir(v.fichTxt)
+				file = open(flag, "r")
+				for k in range (4):
+					line = file.readline()
+				ligne5 = file.readline()
+				l = ligne5.split()
+				cas = l[4]
+				cas = cas.split('(')
+				new = cas[1]
+				new = new.split("%")
+				num = new[0]
+				tabFigMapping.append(float(num))
+				file.close()
+
+			if imageCouv:
+				#BedTools
+				#-------------------------------------------------------------------
+				print("Bedtools pour calculer max, min, moyenne de la couverture")
+				os.chdir(v.adresseBwa)
+				bedfile = tabFichier[i] + "_bed.txt"
+				cmd = "bedtools genomecov -ibam " + v.bamRefPostMK+fichierBam + " -bga > " + v.fichTxt + bedfile
+				#os.system(cmd)
+				os.chdir(v.fichTxt)
+				den = num = 0
+				file = open(bedfile, "r")
+				line = file.readlines()
+				for ligne in line:
+					test = ligne.split()
+					if (test[0] != "ref|NC_001224|"):
+						tmp = np.abs(float(test[2])-1 - float(test[1]))
+						den += tmp*float(test[-1])
+						num += tmp
+				file.close()
+				tabBedMean.append(den/num)
 
 
 	os.chdir(v.simple)
@@ -91,16 +93,74 @@ def mainFigure(tabFichier, imageMapping, imageCouv, imageSNP, imageIndel):
 	
 	os.chdir(current_path)
 	
-	if imageSNP:  
+	#Rajout stat
+	if nbDonnees:
+		print("Information sur les donnees")
+		os.chdir(v.image)
+		fichierFinal = open("infoDonnees.txt", "w")
+		cmd = "bcftools view -H " + v.donnees + "output.vcf.gz |wc -l > nombre.txt"
+		os.system(cmd)
+		
+		inter = open("nombre.txt", "r")
+		line = inter.readlines()
+		txt = "Nombre total de Samples: " + line[0]
+		fichierFinal.write(txt)
+		inter.close()
+		
+		cmd = "bcftools view -H " + v.donnees + "outputSNP.vcf.gz |wc -l > nombre.txt"
+		os.system(cmd)
+		
+		inter = open("nombre.txt", "r")
+		line = inter.readlines()
+		txt = "Avant Filtres SNP: " + line[0]
+		fichierFinal.write(txt)
+		inter.close()
+		
+		cmd = "bcftools view -H " + v.donnees + "outputSnpFiltrer.vcf.gz |wc -l > nombre.txt"
+		os.system(cmd)
+		
+		inter = open("nombre.txt", "r")
+		line = inter.readlines()
+		txt = "Apres Filtres SNP: " + line[0]
+		fichierFinal.write(txt)
+		inter.close()
+		
+		cmd = "bcftools view -H " + v.donnees + "outputINDEL.vcf.gz |wc -l > nombre.txt"
+		os.system(cmd)
+		
+		inter = open("nombre.txt", "r")
+		line = inter.readlines()
+		txt = "Avant Filtres INDEL: " + line[0]
+		fichierFinal.write(txt)
+		inter.close()
+		
+		cmd = "bcftools view -H " + v.donnees + "outputIndelFiltrer.vcf.gz |wc -l > nombre.txt"
+		os.system(cmd)
+		
+		inter = open("nombre.txt", "r")
+		line = inter.readlines()
+		txt = "Apres Filtres INDEL: " + line[0]
+		fichierFinal.write(txt)
+		inter.close()
+		
+		#Fin
+		fichierFinal.close()
+		os.remove("nombre.txt")
+		
+	os.chdir(current_path)
+	
+	if imageSNP:
+		print("Figure SNP: ")  
 		cmd = "Rscript figureSNP.R"
 		os.system(cmd)
 		cmd = "rm Images/DiagrammeVenn*.log"
 		os.system(cmd)
 
 	if imageIndel:
+		print("Figure INDEL: ") 
 		cmd = "Rscript figureINDEL.R"
 		os.system(cmd)
 		cmd = "rm Images/DiagrammeVenn*.log"
 		os.system(cmd)
 	
-	print("FIN FIGURE")
+	print("FIN SCRIPT FIGURE")

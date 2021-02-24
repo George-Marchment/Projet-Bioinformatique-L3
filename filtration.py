@@ -5,7 +5,7 @@ import variables as v
 
 
 def mainFiltration(telechargementFiltreSNP, telechargementFiltreINDEL):
-	print("SCRIPT FILTRATION")
+	print("DEBUT SCRIPT FILTRATION")
 	if telechargementFiltreSNP:
 		#On selectionne les SNP 
 		cmd = "gatk SelectVariants -R " + v.geneRefDossier + "S288C_reference_sequence_R64-2-1_20150113.fasta" + " -V " +  v.donnees + "output.vcf.gz --select-type-to-include SNP  -O " + v.donnees + "outputSNP.vcf.gz"
@@ -41,4 +41,4 @@ def mainFiltration(telechargementFiltreSNP, telechargementFiltreINDEL):
 		cmd = "sed -i '1iCHROM\tPOS\tREF\tALT\tQD\tFS\tMQ\tMQRankSum\tReadPosRankSum\tSOR\tDP' " + v.donnees  + "outputIndelFiltrer.txt"
 		os.system(cmd)
 
-	print("FIN SCRIpT FILTRATION")
+	print("FIN SCRIPT FILTRATION")

@@ -1,0 +1,5 @@
+Nombre total de Samples: 288314
+Avant Filtres SNP: 260940
+Apres Filtres SNP: 260940
+Avant Filtres INDEL: 24351
+Apres Filtres INDEL: 24351

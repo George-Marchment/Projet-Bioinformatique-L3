@@ -8,7 +8,7 @@ import variables as v
 
 
 def mainGVCF(telechargementGVCF, createBbOutput, tabFichierNom, tabFichierBam, tabSampleAlias):
-	print("SCRIPT GVCF")
+	print("DEBUT SCRIPT GVCF")
 	
 	if telechargementGVCF:
 		#initialisation creation fichier pour fichier de ref
@@ -43,7 +43,7 @@ def mainGVCF(telechargementGVCF, createBbOutput, tabFichierNom, tabFichierBam, t
 		
 		
 	#rajouter lien pour cohort
-	fichier = open(v.donnees + "cohort.sample_map", "a")	
+	fichier = open(v.donnees + "cohort.sample_map", "w")	
 	for i in range (len(tabFichierBam)):
 		sortie = v.adresseGVCF + tabFichierNom[i] + ".g.vcf.gz"
 		sortiebis = tabSampleAlias[i]	
@@ -61,11 +61,7 @@ def mainGVCF(telechargementGVCF, createBbOutput, tabFichierNom, tabFichierBam, t
 		os.system(cmd)
 		shutil.rmtree(v.donnees + "my_database")
 		
-		#info SNP Indel taille
-		fichier = open("informationSnpIndel.txt", "a")	
-		# a faire
-		fichier.close()
-		
-	os.remove(v.donnees + "cohort.sample_map")
+				
+	#os.remove(v.donnees + "cohort.sample_map")
 	print("FIN SCRIPT GVCF")
 	
