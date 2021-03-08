@@ -33,13 +33,14 @@ def mainGVCF(telechargementGVCF, createBbOutput, tabFichierNom, tabFichierBam, t
 		
 		os.chdir(current_path)
 		for i in range (len(tabFichierBam)):
-			print("----------------------BOUCLE HAPlOTYPECALLER----------------------", i+1 , " sur " , len(tabFichier)) 
+			print("----------------------BOUCLE HAPlOTYPECALLER----------------------", i+1 , " sur " , len(tabFichierBam)) 
 			ref = v.geneRefDossier + fasta 
 			entree = v.adressePostMk + tabFichierBam[i]
 			sortie = v.adresseGVCF + tabFichierNom[i] + ".g.vcf.gz"
 			sortiebis = v.adresseGVCF + tabFichierNom[i]
 			cmd = "gatk HaplotypeCaller -R " + ref + " -I " + entree + " -O " + sortie + " -ERC GVCF"
 			os.system(cmd) 
+	print("END HAPLTYPECALLER")
 		
 		
 	#rajouter lien pour cohort
@@ -53,13 +54,13 @@ def mainGVCF(telechargementGVCF, createBbOutput, tabFichierNom, tabFichierBam, t
 	
 	if createBbOutput:
 		#create BDD
-		cmd = "gatk GenomicsDBImport --genomicsdb-workspace-path " +v.donnees + "my_database " + "--sample-name-map " + v.donnees + "cohort.sample_map" + " -L " + v.donnees +  "chromosome.list"
+		cmd = "gatk GenomicsDBImport --genomicsdb-workspace-path " +v.adresseBDD + "my_database " + "--sample-name-map " + v.donnees + "cohort.sample_map" + " -L "+ v.donnees +  "chromosome.list"
 		os.system(cmd)
-		
+
 		#Create final vcf
-		cmd = "gatk GenotypeGVCFs -R " + v.geneRefDossier + "S288C_reference_sequence_R64-2-1_20150113.fasta" + " -V gendb://"+ v.donnees+"my_database -O " + v.donnees + "output.vcf.gz"
+		cmd = "gatk GenotypeGVCFs -R " + v.geneRefDossier + "S288C_reference_sequence_R64-2-1_20150113.fasta" + " -V gendb://"+ v.adresseBDD+"my_database -O " + v.donnees + "output.vcf.gz"
 		os.system(cmd)
-		shutil.rmtree(v.donnees + "my_database")
+		shutil.rmtree(v.adresseBDD + "my_database")
 		
 				
 	#os.remove(v.donnees + "cohort.sample_map")

@@ -11,7 +11,7 @@ def initialize():
     
     #------------------------ONLY VARIABLE TO CHANGE------------------------
     #-----------------------------------------------------------------------
-    utilisateur= "clemence" #george or clemence
+    utilisateur= "george" #george or clemence
     #-----------------------------------------------------------------------
     #-----------------------------------------------------------------------
     
@@ -21,6 +21,7 @@ def initialize():
     global adresseBwa
     
     global donnees
+    global adresseBDD
     #Address of the reference genome in relation to the BWA adress (variable declared just above: adresseBwa)
     global geneRef
     #Address of the gene folder reference
@@ -31,6 +32,7 @@ def initialize():
     global bamRefPreMK
     #Address where the .bam files post MarkDuplicate will be created in relation to the BWA adress (adresseBwa)
     global bamRefPostMK
+    
     
     #Temporary file adresses
     global fichTxt
@@ -48,7 +50,8 @@ def initialize():
         print("")
         adresseTelechargement= "/media/george/USB2GM/Projet_BioInformatique/Donnees/FASTQ/"
         adresseBwa= "/home/george/Bureau/bwa/"
-        donnees = "../../../../media/george/USB2GM/Projet_BioInformatique/Donnees/" 
+        donnees = "/media/george/USB2GM/Projet_BioInformatique/Donnees/" 
+        adresseBDD = "/home/george/Bureau/" 
         geneRef= "../../../../media/george/USB2GM/Projet_BioInformatique/Donnees/Genome/S288C_reference_sequence_R64-2-1_20150113.fsa"
         geneRefDossier =  "/media/george/USB2GM/Projet_BioInformatique/Donnees/Genome/"  
         zipSam = "../../../../media/george/USB2GM/Projet_BioInformatique/Donnees/SAM/"
@@ -58,7 +61,7 @@ def initialize():
         simple = "/media/george/USB2GM/Projet_BioInformatique/"
         adressePostMk = "/media/george/USB2GM/Projet_BioInformatique/Donnees/BAM/BAM_POST_MK/"  
         adresseGVCF = "/media/george/USB2GM/Projet_BioInformatique/Donnees/GVCF/"  
-        image = "/media/george/USB2GM/Projet_BioInformatique/Images" # a revoir 
+        image = "/media/george/USB2GM/Projet_BioInformatique/Images" 
         
     elif utilisateur == "clemence":
         print("")
@@ -67,6 +70,7 @@ def initialize():
         simple = "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/"
         image = "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Images"
         donnees = "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Donnees/"
+        adresseBDD = donnees
         adresseTelechargement= "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Donnees/FASTQ/" 
         adresseBwa= "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/bwa/"
         geneRef= "../Donnees/Genome/S288C_reference_sequence_R64-2-1_20150113.fsa"
