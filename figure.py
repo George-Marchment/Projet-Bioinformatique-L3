@@ -15,7 +15,7 @@ def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees, imageSNP, imageIn
 	
 	#Tab for the plot of bedtools
 	tabBedMean = []
-	den = num = 0 
+	den, num = 0, 0
 
 
 	if imageMapping or imageCouv:
@@ -30,7 +30,7 @@ def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees, imageSNP, imageIn
 				print("Samtools flagstat + creation fichier txt")
 				flag = tabFichier[i] + ".txt"
 				cmd = "samtools flagstat " + v.bamRefPostMK+fichierBam + " > " +  v.fichTxt + flag
-				#os.system(cmd)
+				os.system(cmd)
 				#Ajout donnee pour figure
 				os.chdir(v.fichTxt)
 				file = open(flag, "r")
@@ -53,7 +53,7 @@ def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees, imageSNP, imageIn
 				os.chdir(v.adresseBwa)
 				bedfile = tabFichier[i] + "_bed.txt"
 				cmd = "bedtools genomecov -ibam " + v.bamRefPostMK+fichierBam + " -bga > " + v.fichTxt + bedfile
-				#os.system(cmd)
+				os.system(cmd)
 				os.chdir(v.fichTxt)
 				den = num = 0
 				file = open(bedfile, "r")
