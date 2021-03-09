@@ -18,14 +18,14 @@ telechargementGVCF= False
 
 createBbOutput = False
 
-telechargementFiltreSNP = False
+telechargementFiltreSNP = True
 
-telechargementFiltreINDEL = False
+telechargementFiltreINDEL = True
 
 #Variable pour les figures 
-imageMapping = True
+imageMapping = False
 
-imageCouv = True
+imageCouv = False
 
 nbDonnees = True
 
@@ -57,9 +57,7 @@ if __name__ == "__main__":
        
     #3 - GVCF
     gvcf.mainGVCF(telechargementGVCF,createBbOutput, tabFichierNomNew, tabFichierBam, tabSampleAlias)
-           
-    #info rajouter CM3 page 13 - bcftools => a ecrire ds un fichier de sortie
-    
+             
     #4 - Filtration 
     filtration.mainFiltration(telechargementFiltreSNP, telechargementFiltreINDEL)
   

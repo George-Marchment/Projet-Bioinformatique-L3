@@ -13,8 +13,14 @@ def mainFiltration(telechargementFiltreSNP, telechargementFiltreINDEL):
 		
 		#Select Variant
 		# A revoir niveau filtre !!!!!! 
-		cmd = "gatk VariantFiltration -R " + v.geneRefDossier + "S288C_reference_sequence_R64-2-1_20150113.fasta -V " + v.donnees + "outputSNP.vcf.gz -O " + v.donnees +  "outputSnpFiltrer.vcf.gz --filter-expression \"QD < 2.0 || FS > 60.0 || MQ < 50.0 || MQRankSum < -2.5 || ReadPosRankSum < -8.0 || SOR < 3.0 \" --filter-name \"filtering_snp\""
+		#cmd = "gatk VariantFiltration -R " + v.geneRefDossier + "S288C_reference_sequence_R64-2-1_20150113.fasta -V " + v.donnees + "outputSNP.vcf.gz -O " + v.donnees +  "outputSnpFiltrer.vcf.gz --filter-expression \"QD < 10.0 \" --filter-name \"filtering_snp\""
+		
+		cmd = "bcftools filter -e 'QD < 2.0 || FS < 1.0  || MQ < 1.0 || MQRankSum < 1.0 || ReadPosRankSum >= 0.0 || SOR < 1.0' -O z -o " + v.donnees + "outputSnpFiltrer.vcf.gz " + v.donnees + "outputSNP.vcf.gz"
+		# -e : exclude ||
+		# -i include &&
 		os.system(cmd)
+		
+		#QD < 2.0 || FS < 1.0  || MQ < 1.0 || MQRankSum < 1.0 || ReadPosRankSum >= 0.0 || SOR < 1.0
 		
 		#Extraire donnee pour figure : (meme colonne que ds l'exemple)
 		cmd = "bcftools query " + v.donnees +  "outputSnpFiltrer.vcf.gz -f '%CHROM\t%POS\t%REF\t%ALT\t%QD\t%FS\t%MQ\t%MQRankSum\t%ReadPosRankSum\t%SOR\t%DP\n' > " + v.donnees + "outputSnpFiltrer.txt"
@@ -29,8 +35,8 @@ def mainFiltration(telechargementFiltreSNP, telechargementFiltreINDEL):
 		os.system(cmd)
 	
 		#Select Variant
-		# A revoir niveau filtre !!!!!! 
-		cmd = "gatk VariantFiltration -R " + v.geneRefDossier + "S288C_reference_sequence_R64-2-1_20150113.fasta -V " + v.donnees + "outputINDEL.vcf.gz -O " + v.donnees +  "outputIndelFiltrer.vcf.gz --filter-expression \"QD < 2.0 || FS > 60.0 || MQ < 50.0 || MQRankSum < -2.5 || ReadPosRankSum < -8.0 || SOR < 3.0 \" --filter-name \"filtering_snp\""
+		# A revoir niveau filtre !!!!!! 		
+		cmd = "bcftools filter -e 'QD < 2.0 || FS < 1.0  || MQ < 1.0 || MQRankSum < 1.0 || ReadPosRankSum >= 0.0 || SOR < 1.0' -O z -o " + v.donnees + "outputIndelFiltrer.vcf.gz " + v.donnees + "outputINDEL.vcf.gz"
 		os.system(cmd)
 		
 		#Extraire donnee pour figure : (meme colonne que ds l'exemple)

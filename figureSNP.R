@@ -10,11 +10,11 @@ annotations = read.table(annot.file, h=TRUE,na.strings=".")
 
 # INITIALISATION DES SEUILS
 lim.QD = 2
-lim.FS = 60
+lim.FS = 1
 lim.MQ = 50
-lim.MQRankSum = -2.5
-lim.ReadPosRankSum = -8.0
-lim.SOR = 3.0
+lim.MQRankSum = 1
+lim.ReadPosRankSum = 0
+lim.SOR = 1
 
 # CREATION DES FIGURES
 pdf("Images/FiltresSNP.pdf")
