@@ -43,6 +43,10 @@ def initialize():
     global adresseGVCF 
     global image
     
+    global vcf
+    global graphs
+    global results
+    
     #The assignment of the different variables (the adresses used on both machines)
     if utilisateur == "george":
         print("")
@@ -61,14 +65,20 @@ def initialize():
         simple = "/media/george/USB2GM/Projet_BioInformatique/"
         adressePostMk = "/media/george/USB2GM/Projet_BioInformatique/Donnees/BAM/BAM_POST_MK/"  
         adresseGVCF = "/media/george/USB2GM/Projet_BioInformatique/Donnees/GVCF/"  
-        image = "/media/george/USB2GM/Projet_BioInformatique/Images" 
+        
+        #inutile
+        image = "/media/george/USB2GM/Projet_BioInformatique/Images"
+        
+        #Nouveau
+        graphs= "/media/george/USB2GM/Projet_BioInformatique/Results/Graphs/"
+        results= "/media/george/USB2GM/Projet_BioInformatique/Results/"
+        vcf= "/media/george/USB2GM/Projet_BioInformatique/Donnees/VCF/" 
         
     elif utilisateur == "clemence":
         print("")
         print("L'utilsateur est Clémence")
         print("")
         simple = "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/"
-        image = "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Images"
         donnees = "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Donnees/"
         adresseBDD = donnees
         adresseTelechargement= "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Donnees/FASTQ/" 
@@ -81,6 +91,13 @@ def initialize():
         fichTxt = "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Donnees/BAM/"
         adressePostMk = "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Donnees/BAM/BAM_POST_MK/"
         adresseGVCF = "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Donnees/GVCF/"
+        
+        #Inutile
+        
+        #Nouvea => A VERIFIER 
+        graphs= "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Results/Graphs/"
+        results= "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Results/"
+        vcf= "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Donnees/VCF/"
         
         
 

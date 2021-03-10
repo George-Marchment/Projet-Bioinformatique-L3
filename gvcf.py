@@ -58,7 +58,7 @@ def mainGVCF(telechargementGVCF, createBbOutput, tabFichierNom, tabFichierBam, t
 		os.system(cmd)
 
 		#Create final vcf
-		cmd = "gatk GenotypeGVCFs -R " + v.geneRefDossier + "S288C_reference_sequence_R64-2-1_20150113.fasta" + " -V gendb://"+ v.adresseBDD+"my_database -O " + v.donnees + "output.vcf.gz"
+		cmd = "gatk GenotypeGVCFs -R " + v.geneRefDossier + "S288C_reference_sequence_R64-2-1_20150113.fasta" + " -V gendb://"+ v.adresseBDD+"my_database -O " + v.vcf + "output.vcf.gz"
 		os.system(cmd)
 		shutil.rmtree(v.adresseBDD + "my_database")
 		

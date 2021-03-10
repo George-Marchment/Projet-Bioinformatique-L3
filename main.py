@@ -19,8 +19,9 @@ telechargementGVCF= False
 createBbOutput = False
 
 telechargementFiltreSNP = True
-
 telechargementFiltreINDEL = True
+sansFiltre= True
+avecFiltre= True
 
 #Variable pour les figures 
 imageMapping = False
@@ -31,7 +32,11 @@ nbDonnees = True
 
 imageSNP = True
 
-imageIndel = True
+imageIndel =True
+
+#Definition of the different values of the filtre
+#The name of the filter is always to the left of the comparaison, for ewample: "QD > 3"
+filtre={'QD': ['>', 90.0], 'FS': ['<', 1.0], 'MQ': ['<', 1.0], 'MQRankSum': ['<', 1.0], 'ReadPosRankSum': ['>=', 0.0], 'SOR': ['<', 1.0]}
 
 #Number of fastq files to download +  continue to 'work' in the pipeline
 #IMPORTANT: - the corresponding number of files will only download if 'telechargementFASTQ=True'
@@ -59,10 +64,10 @@ if __name__ == "__main__":
     gvcf.mainGVCF(telechargementGVCF,createBbOutput, tabFichierNomNew, tabFichierBam, tabSampleAlias)
              
     #4 - Filtration 
-    filtration.mainFiltration(telechargementFiltreSNP, telechargementFiltreINDEL)
+    filtration.mainFiltration(telechargementFiltreSNP, telechargementFiltreINDEL, sansFiltre, avecFiltre,filtre)
   
     #Figure 
-    figure.mainFigure(tabFichierNomNew, imageMapping, imageCouv, nbDonnees, imageSNP, imageIndel)
+    figure.mainFigure(tabFichierNomNew, imageMapping, imageCouv, nbDonnees, imageSNP, imageIndel, filtre)
     
     #Set the jdk back to version 11.0
     #IMPORTANT: If the script stops during the execution (for whatever reason) make sure to set the jdk back to 11.0 manually with the same command line

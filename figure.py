@@ -6,7 +6,50 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees, imageSNP, imageIndel):
+
+
+
+def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees, imageSNP, imageIndel, filtre):
+    
+    #On récupère les filtre
+	qd= filtre['QD'][1]
+	fs= filtre['FS'][1]
+	mq= filtre['MQ'][1]
+	mqRankSum= filtre['MQRankSum'][1]
+	readPosRankSum= filtre['ReadPosRankSum'][1]
+	sor= filtre['SOR'][1]
+ 
+ 	#On récupère les synmboles de comparaison pour les filtres
+	sym_qd= filtre['QD'][0]
+	sym_fs= filtre['FS'][0]
+	sym_mq= filtre['MQ'][0]
+	sym_mqRankSum= filtre['MQRankSum'][0]
+	sym_readPosRankSum= filtre['ReadPosRankSum'][0]
+	sym_sor= filtre['SOR'][0]
+    
+    #Fonction mettre entre guillement
+	def G(a):
+		return ("\""+a+"\"")
+
+	valeurs_filtre= str(qd)+" "+str(fs)+" "+str(mq)+" "+str(mqRankSum)+" "+str(readPosRankSum)+" "+str(sor)
+	sym_filtre= G(str(sym_qd))+" "+G(str(sym_fs))+" "+G(str(sym_mq))+" "+G(str(sym_mqRankSum))+" "+G(str(sym_readPosRankSum))+" "+G(str(sym_sor))
+	
+	def traceSNP(entree, adresse):
+		if imageSNP:
+				print("Figure SNP: ") 
+				cmd = "Rscript figureSNP.R "+ entree+" "+adresse+ " "+valeurs_filtre+" "+sym_filtre
+				os.system(cmd)
+				cmd = "rm "+ adresse+"DiagrammeVenn*.log"
+				os.system(cmd)
+
+	def traceIndel(entree, adresse):
+		if imageIndel:
+			print("Figure INDEL: ") 
+			cmd = "Rscript figureINDEL.R "+ entree+" "+adresse+ " "+valeurs_filtre+" "+sym_filtre
+			os.system(cmd)
+			cmd = "rm "+ adresse+"DiagrammeVenn*.log"
+			os.system(cmd)
+
 	print("DEBUT SCRIPT FIGURE")
 	current_path= os.getcwd()
 	
@@ -20,7 +63,7 @@ def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees, imageSNP, imageIn
 
 	if imageMapping or imageCouv:
 		for i in range (len(tabFichier)):
-			print("----------------- Figure ", i , " sur ", len(tabFichier) , "---------------------")
+			print("----------------- Figure ", i+1 , " sur ", len(tabFichier) , "---------------------")
 			os.chdir(v.adresseBwa)
 			fichierBam = tabFichier[i] + ".bam"
 			
@@ -72,7 +115,7 @@ def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees, imageSNP, imageIn
 	
 	if imageMapping:
 		print('Figure Mapping')
-		os.chdir(v.image)
+		os.chdir(v.graphs+"General/")
 		fig,ax = plt.subplots()
 		ax.plot(tabFigMapping,"o-")
 		ax.set_title("Pourcentage de donnees qui mappent sur les 26 échantillons")
@@ -85,7 +128,7 @@ def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees, imageSNP, imageIn
 
 	if imageCouv:
 		print("Figure pour bedtools")
-		os.chdir(v.image)
+		os.chdir(v.graphs+"General/")
 		fig,ax = plt.subplots()
 		ax.plot(tabBedMean, "o-")
 		ax.set_title("Couverture moyenne des 26 échantillons")
@@ -96,9 +139,9 @@ def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees, imageSNP, imageIn
 	#Rajout stat
 	if nbDonnees:
 		print("Information sur les donnees")
-		os.chdir(v.image)
+		os.chdir(v.results+"General/")
 		fichierFinal = open("infoDonnees.txt", "w")
-		cmd = "bcftools view -H " + v.donnees + "output.vcf.gz |wc -l > nombre.txt"
+		cmd = "bcftools view -H " + v.vcf + "output.vcf.gz |wc -l > nombre.txt"
 		os.system(cmd)
 		
 		inter = open("nombre.txt", "r")
@@ -107,7 +150,7 @@ def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees, imageSNP, imageIn
 		fichierFinal.write(txt)
 		inter.close()
 		
-		cmd = "bcftools view -H " + v.donnees + "outputSNP.vcf.gz |wc -l > nombre.txt"
+		cmd = "bcftools view -H " + v.vcf + "SNP/outputSNP.vcf.gz |wc -l > nombre.txt"
 		os.system(cmd)
 		
 		inter = open("nombre.txt", "r")
@@ -116,7 +159,7 @@ def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees, imageSNP, imageIn
 		fichierFinal.write(txt)
 		inter.close()
 		
-		cmd = "bcftools view -H " + v.donnees + "outputSnpFiltrer.vcf.gz |wc -l > nombre.txt"
+		cmd = "bcftools view -H " + v.vcf + "SNP/POST_FILTRE/outputSnpFiltrer.vcf.gz |wc -l > nombre.txt"
 		os.system(cmd)
 		
 		inter = open("nombre.txt", "r")
@@ -125,7 +168,7 @@ def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees, imageSNP, imageIn
 		fichierFinal.write(txt)
 		inter.close()
 		
-		cmd = "bcftools view -H " + v.donnees + "outputINDEL.vcf.gz |wc -l > nombre.txt"
+		cmd = "bcftools view -H " + v.vcf + "INDEL/outputINDEL.vcf.gz |wc -l > nombre.txt"
 		os.system(cmd)
 		
 		inter = open("nombre.txt", "r")
@@ -134,7 +177,7 @@ def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees, imageSNP, imageIn
 		fichierFinal.write(txt)
 		inter.close()
 		
-		cmd = "bcftools view -H " + v.donnees + "outputIndelFiltrer.vcf.gz |wc -l > nombre.txt"
+		cmd = "bcftools view -H " + v.vcf + "INDEL/POST_FILTRE/outputIndelFiltrer.vcf.gz |wc -l > nombre.txt"
 		os.system(cmd)
 		
 		inter = open("nombre.txt", "r")
@@ -148,19 +191,9 @@ def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees, imageSNP, imageIn
 		os.remove("nombre.txt")
 		
 	os.chdir(current_path)
-	
-	if imageSNP:
-		print("Figure SNP: ")  
-		cmd = "Rscript figureSNP.R"
-		os.system(cmd)
-		cmd = "rm Images/DiagrammeVenn*.log"
-		os.system(cmd)
 
-	if imageIndel:
-		print("Figure INDEL: ") 
-		cmd = "Rscript figureINDEL.R"
-		os.system(cmd)
-		cmd = "rm Images/DiagrammeVenn*.log"
-		os.system(cmd)
-	
+	#On trace les graphs des filtre pour SNP et INDEL
+	traceSNP(v.vcf + "SNP/POST_FILTRE/outputSnpFiltrer.txt", v.graphs+"SNP/")
+	traceIndel(v.vcf + "INDEL/POST_FILTRE/outputIndelFiltrer.txt", v.graphs+"INDEL/")
+ 
 	print("FIN SCRIPT FIGURE")
