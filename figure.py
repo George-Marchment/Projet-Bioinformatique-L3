@@ -9,7 +9,7 @@ import numpy as np
 
 
 
-def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees, imageSNP, imageIndel, filtre):
+def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees,imageSansFiltreSNP, imageSansFiltreINDEL, imageSNP, imageIndel, filtre):
     
     #On récupère les filtre
 	qd= filtre['QD'][1]
@@ -192,8 +192,22 @@ def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees, imageSNP, imageIn
 		
 	os.chdir(current_path)
 
+	#Rajouter graphe donnees sans filtres
+	if imageSansFiltreSNP: 
+		print("Figure SNP no filtre") 
+		cmd = "Rscript figureNoFilter.R " + v.vcf + "SNP/PRE_FILTRE/outputSnpNoFiltrer.txt" + " " + v.graphs+"SNP/NoFilter/"
+		os.system(cmd)
+		
+	if imageSansFiltreINDEL: 
+		print("Figure INDEL no filtre") 
+		cmd = "Rscript figureNoFilter.R " + v.vcf + "INDEL/PRE_FILTRE/outputIndelNoFiltrer.txt" + " " + v.graphs+"INDEL/NoFilter/"
+		os.system(cmd)
+
+
 	#On trace les graphs des filtre pour SNP et INDEL
-	traceSNP(v.vcf + "SNP/POST_FILTRE/outputSnpFiltrer.txt", v.graphs+"SNP/")
-	traceIndel(v.vcf + "INDEL/POST_FILTRE/outputIndelFiltrer.txt", v.graphs+"INDEL/")
+	if imageSNP:
+		traceSNP(v.vcf + "SNP/POST_FILTRE/outputSnpFiltrer.txt", v.graphs+"SNP/Filter/")
+	if imageIndel:
+		traceIndel(v.vcf + "INDEL/POST_FILTRE/outputIndelFiltrer.txt", v.graphs+"INDEL/Filter/")
  
 	print("FIN SCRIPT FIGURE")

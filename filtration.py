@@ -46,6 +46,7 @@ def mainFiltration(telechargementFiltreSNP, telechargementFiltreINDEL, sansFiltr
 			#Select Variant
 			#SEMBLE NE PAS FONCTIONNER -> a Voir Pourquoi
 			#cmd = "gatk VariantFiltration -R " + v.geneRefDossier + "S288C_reference_sequence_R64-2-1_20150113.fasta -V " + v.vcf + "SNP/outputSNP.vcf.gz -O " + v.vcf + "SNP/POST_FILTRE/outputSnpFiltrer.vcf.gz -filter \"QD < 10.0 \" --filter-name \" QD10\""
+			
 			cmd= "bcftools filter -e 'QD "+sym_qd+str(qd)+ " || FS "+sym_fs+str(fs)+" || MQ "+sym_mq+str(mq)+" || MQRankSum "+sym_mqRankSum+str(mqRankSum)+" || ReadPosRankSum "+sym_readPosRankSum+str(readPosRankSum)+" || SOR "+sym_sor+str(sor)+"' -O z -o " + v.vcf + "SNP/POST_FILTRE/outputSnpFiltrer.vcf.gz " + v.vcf + "SNP/outputSNP.vcf.gz"
 			os.system(cmd)
 			
@@ -66,7 +67,7 @@ def mainFiltration(telechargementFiltreSNP, telechargementFiltreINDEL, sansFiltr
 		
 		if(sansFiltre):
 			#Extraire donnee pour figure : (meme colonne que ds l'exemple)
-			cmd = "bcftools query " + v.vcf + "INDEL/outputIndel.vcf.gz -f '%CHROM\t%POS\t%REF\t%ALT\t%QD\t%FS\t%MQ\t%MQRankSum\t%ReadPosRankSum\t%SOR\t%DP\n' > " + v.vcf + "INDEL/PRE_FILTRE/outputIndelNoFiltrer.txt"
+			cmd = "bcftools query " + v.vcf + "INDEL/outputINDEL.vcf.gz -f '%CHROM\t%POS\t%REF\t%ALT\t%QD\t%FS\t%MQ\t%MQRankSum\t%ReadPosRankSum\t%SOR\t%DP\n' > " + v.vcf + "INDEL/PRE_FILTRE/outputIndelNoFiltrer.txt"
 			os.system(cmd)
    
 			#Rajout legende premiere ligne
