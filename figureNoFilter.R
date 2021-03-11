@@ -2,7 +2,7 @@
 #!/usr/bin/env Rscript
 library(lattice)
 
-args = commandArgs(trailingOnly=TRUE)   #la liste des arguments donc arg1  arg2 et arg3
+args = commandArgs(trailingOnly=TRUE)  
 entree= args[1]
 sortie = args[2]
 
@@ -37,5 +37,97 @@ boxplot(annotations$MQRankSum, range=0, main= "MQRankSum", horizontal=TRUE)
 boxplot(annotations$ReadPosRankSum, range=0, main= "ReadPosRankSum", horizontal=TRUE)
 boxplot(annotations$SOR, range=0, main= "SOR", horizontal=TRUE)
 
+#Autre donnee
+fichier <- file(paste(sortie,"autreInfo.txt", sep = "", collapse=NULL), open="w")
 
+val <- "QD :"
+writeLines(val, con = fichier)
+val <- paste("Moyenne : ", mean(annotations$QD,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- paste("Mediane : ", median(annotations$QD,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- paste("Maximum : ", max(annotations$QD,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- paste("Minimum : ", min(annotations$QD,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- paste("Ecart-type : ", sd(annotations$QD,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- " "
+writeLines(val, con = fichier)
 
+val <- "FS :"
+writeLines(val, con = fichier)
+val <- paste("Moyenne : ", mean(annotations$FS,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- paste("Mediane : ", median(annotations$FS,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- paste("Maximum : ", max(annotations$FS,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- paste("Minimum : ", min(annotations$FS,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- paste("Ecart-type : ", sd(annotations$FS,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- " "
+writeLines(val, con = fichier)
+
+val <- "MQ :"
+writeLines(val, con = fichier)
+val <- paste("Moyenne : ", mean(annotations$MQ,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- paste("Mediane : ", median(annotations$MQ,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- paste("Maximum : ", max(annotations$MQ,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- paste("Minimum : ", min(annotations$MQ,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- paste("Ecart-type : ", sd(annotations$MQ,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- " "
+writeLines(val, con = fichier)
+
+val <- "MQRankSum :"
+writeLines(val, con = fichier)
+val <- paste("Moyenne : ", mean(annotations$MQRankSum,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- paste("Mediane : ", median(annotations$MQRankSum,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- paste("Maximum : ", max(annotations$MQRankSum,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- paste("Minimum : ", min(annotations$MQRankSum,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- paste("Ecart-type : ", sd(annotations$MQRankSum,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- " "
+writeLines(val, con = fichier)
+
+val <- "ReadPosRankSum :"
+writeLines(val, con = fichier)
+val <- paste("Moyenne : ", mean(annotations$ReadPosRankSum,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- paste("Mediane : ", median(annotations$ReadPosRankSum,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- paste("Maximum : ", max(annotations$ReadPosRankSum,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- paste("Minimum : ", min(annotations$ReadPosRankSum,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- paste("Ecart-type : ", sd(annotations$ReadPosRankSum,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- " "
+writeLines(val, con = fichier)
+
+val <- "SOR :"
+writeLines(val, con = fichier)
+val <- paste("Moyenne : ", mean(annotations$SOR,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- paste("Mediane : ", median(annotations$SOR,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- paste("Maximum : ", max(annotations$SOR,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- paste("Minimum : ", min(annotations$SOR,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- paste("Ecart-type : ", sd(annotations$SOR,na.rm=T), sep ="", collapse=NULL)
+writeLines(val, con = fichier)
+val <- " "
+writeLines(val, con = fichier)
+
+close(fichier)
