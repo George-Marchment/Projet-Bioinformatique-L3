@@ -136,11 +136,21 @@ def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees,imageSansFiltreSNP
 	
 	os.chdir(current_path)
 	
+	
+	#Creating vcf with only PASS  
+	#Utile pour compter ligne + figure
+
+	cmd= "bcftools view -f PASS "+v.vcf + "SNP/POST_FILTRE/outputSnpFiltrer.vcf.gz > " + v.vcf + "SNP/POST_FILTRE/SNPfig.vcf"
+	os.system(cmd) 
+	cmd= "bcftools view -f PASS "+v.vcf + "INDEL/POST_FILTRE/outputIndelFiltrer.vcf.gz > " + v.vcf + "INDEL/POST_FILTRE/INDELfig.vcf"
+	os.system(cmd)
+	
 	#Rajout stat
 	if nbDonnees:
 		print("Information sur les donnees")
 		os.chdir(v.results+"General/")
 		fichierFinal = open("infoDonnees.txt", "w")
+		
 		cmd = "bcftools view -H " + v.vcf + "output.vcf.gz |wc -l > nombre.txt"
 		os.system(cmd)
 		
@@ -159,14 +169,9 @@ def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees,imageSansFiltreSNP
 		fichierFinal.write(txt)
 		inter.close()
 
-
-		#Creating vcf with only PASS 
-		cmd= "bcftools view -f PASS "+v.vcf + "SNP/POST_FILTRE/outputSnpFiltrer.vcf.gz > temp.vcf.gz"
-		os.system(cmd)
 		#Counting lignes without header
-		cmd = "bcftools view -H temp.vcf.gz |wc -l > nombre.txt"
+		cmd = "bcftools view -H " + v.vcf + "SNP/POST_FILTRE/SNPfig.vcf |wc -l > nombre.txt"
 		os.system(cmd)
-		os.remove("temp.vcf.gz")
 		
 		inter = open("nombre.txt", "r")
 		line = inter.readlines()
@@ -185,14 +190,9 @@ def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees,imageSansFiltreSNP
 		inter.close()
 
 
-		#Creating vcf with only PASS 
-		cmd= "bcftools view -f PASS "+v.vcf + "INDEL/POST_FILTRE/outputIndelFiltrer.vcf.gz > temp.vcf.gz"
-		os.system(cmd)
-
 		#Counting lignes without header
-		cmd = "bcftools view -H temp.vcf.gz |wc -l > nombre.txt"
+		cmd = "bcftools view -H " + v.vcf + "INDEL/POST_FILTRE/INDELfig.vcf |wc -l > nombre.txt"
 		os.system(cmd)
-		os.remove("temp.vcf.gz")
 		
 		inter = open("nombre.txt", "r")
 		line = inter.readlines()
@@ -220,8 +220,26 @@ def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees,imageSansFiltreSNP
 
 	#On trace les graphs des filtre pour SNP et INDEL
 	if imageSNP:
-		traceSNP(v.vcf + "SNP/POST_FILTRE/outputSnpFiltrer.txt", v.graphs+"SNP/Filter/")
+	
+		cmd = "bcftools query " + v.vcf + "SNP/POST_FILTRE/SNPfig.vcf -f '%CHROM\t%POS\t%REF\t%ALT\t%QD\t%FS\t%MQ\t%MQRankSum\t%ReadPosRankSum\t%SOR\t%DP\t%FILTER\n' > " + v.vcf + "SNP/POST_FILTRE/SNPfigFiltrer.txt"
+		os.system(cmd)	
+			
+		#Rajout legende premiere ligne
+		cmd = "sed -i '1iCHROM\tPOS\tREF\tALT\tQD\tFS\tMQ\tMQRankSum\tReadPosRankSum\tSOR\tDP\tFILTER' " + v.vcf + "SNP/POST_FILTRE/SNPfigFiltrer.txt"
+		os.system(cmd)
+	
+		traceSNP(v.vcf + "SNP/POST_FILTRE/SNPfigFiltrer.txt", v.graphs+"SNP/Filter/")
+		
+		
 	if imageIndel:
-		traceIndel(v.vcf + "INDEL/POST_FILTRE/outputIndelFiltrer.txt", v.graphs+"INDEL/Filter/")
+	
+		cmd = "bcftools query " + v.vcf + "INDEL/POST_FILTRE/INDELfig.vcf -f '%CHROM\t%POS\t%REF\t%ALT\t%QD\t%FS\t%MQ\t%MQRankSum\t%ReadPosRankSum\t%SOR\t%DP\t%FILTER\n' > " + v.vcf + "INDEL/POST_FILTRE/INDELfigFiltrer.txt"
+		os.system(cmd)	
+		
+		#Rajout legende premiere ligne
+		cmd = "sed -i '1iCHROM\tPOS\tREF\tALT\tQD\tFS\tMQ\tMQRankSum\tReadPosRankSum\tSOR\tDP\tFILTER' " + v.vcf + "INDEL/POST_FILTRE/INDELfigFiltrer.txt"
+		os.system(cmd)
+		
+		traceIndel(v.vcf + "INDEL/POST_FILTRE/INDELfigFiltrer.txt", v.graphs+"INDEL/Filter/")
  
 	print("FIN SCRIPT FIGURE")

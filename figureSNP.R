@@ -98,9 +98,9 @@ mqrs.pass= which(compare(annotations$MQRankSum, sym_mqRankSum ,lim.MQRankSum))
 rprs.pass= which(compare(annotations$ReadPosRankSum, sym_readPosRankSum ,lim.ReadPosRankSum))
 
 venn.diagram(
-  x=list(qd.pass, fs.pass,mq.pass,sor.pass),  #,mqrs.pass,rprs.pass
-  category.names = c("QD" , "FS" , "MQ", "SOR"), #,"MQRanksSum", "ReadPosRankSum"
-  fill = c("blue","darkgreen","orange","yellow"), #,"red","purple"
+  x=list(qd.pass, fs.pass,mq.pass,sor.pass,mqrs.pass),  #,rprs.pass
+  category.names = c("QD" , "FS" , "MQ", "SOR","MQRanksSum"), #, "ReadPosRankSum"
+  fill = c("blue","darkgreen","orange","yellow","red"), #,"purple"
   output=TRUE,
   filename = paste(adresse, "DiagrammeVennSNP", sep = "", collapse=NULL)
   )

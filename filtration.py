@@ -31,6 +31,7 @@ def mainFiltration(telechargementFiltreSNP, telechargementFiltreINDEL, sansFiltr
 	filtre_mqRankSum= " --filter-name \'MQRankSum"+str(mqRankSum)+"\' --filter-expression \"MQRankSum"+sym_mqRankSum+str(mqRankSum)+"\""
 	filtre_readPosRankSum= " --filter-name \'ReadPosRankSum"+str(readPosRankSum)+"\' --filter-expression \"ReadPosRankSum"+sym_readPosRankSum+str(readPosRankSum)+"\""
 	filtre_sor= " --filter-name \'SOR"+str(qd)+"\' --filter-expression \"SOR"+sym_sor+str(sor)+"\""
+	
 	filtres= filtre_qd+filtre_fs+filtre_mq+filtre_mqRankSum+filtre_readPosRankSum+filtre_sor
 
 	#Cette partie du code est clairement écrit d'un manière pour simplifier la lecture, elle n'est pas optimisé ni 'facile' à modifier comme on rèpète souvent les mêmes choses
@@ -51,9 +52,10 @@ def mainFiltration(telechargementFiltreSNP, telechargementFiltreINDEL, sansFiltr
 			os.system(cmd)	
 
 		if(avecFiltre):
-			#Select Variant
+			#Filtration
 			#Les deux options en dessus pour les filtres
 			cmd = "gatk VariantFiltration -R " + v.geneRefDossier + "S288C_reference_sequence_R64-2-1_20150113.fasta -V " + v.vcf + "SNP/outputSNP.vcf.gz -O " + v.vcf + "SNP/POST_FILTRE/outputSnpFiltrer.vcf.gz"+filtres
+			
 			#cmd= "bcftools filter -e 'QD "+sym_qd+str(qd)+ " || FS "+sym_fs+str(fs)+" || MQ "+sym_mq+str(mq)+" || MQRankSum "+sym_mqRankSum+str(mqRankSum)+" || ReadPosRankSum "+sym_readPosRankSum+str(readPosRankSum)+" || SOR "+sym_sor+str(sor)+"' -O z -o " + v.vcf + "SNP/POST_FILTRE/outputSnpFiltrer.vcf.gz " + v.vcf + "SNP/outputSNP.vcf.gz"
 			os.system(cmd)
 			
@@ -82,13 +84,10 @@ def mainFiltration(telechargementFiltreSNP, telechargementFiltreINDEL, sansFiltr
 			os.system(cmd)	
 
 		if(avecFiltre):
-      
-			#Select Variant
-			#Vieux
-			#SEMBLE NE PAS FONCTIONNER -> a Voir Pourquoi
-			#cmd = "gatk VariantFiltration -R " + v.geneRefDossier + "S288C_reference_sequence_R64-2-1_20150113.fasta -V " + v.vcf + "INDEL/outputINDEL.vcf.gz -O " + v.vcf + "INDEL/POST_FILTRE/outputIndelFiltrer.vcf.gz -filter \"QD"+sym_qd+str(qd)+" \" --filter-name \'QD\'"#'QD"+sym_qd+str(qd)+ "
-			#Les Deux Choix en dessus
+      			#Filtration
+			#Les deux options en dessus pour les filtres
 			cmd = "gatk VariantFiltration -R " + v.geneRefDossier + "S288C_reference_sequence_R64-2-1_20150113.fasta -V " + v.vcf + "INDEL/outputINDEL.vcf.gz -O " + v.vcf + "INDEL/POST_FILTRE/outputIndelFiltrer.vcf.gz"+filtres
+			
 			#cmd= "bcftools filter -e 'QD "+sym_qd+str(qd)+ " || FS "+sym_fs+str(fs)+" || MQ "+sym_mq+str(mq)+" || MQRankSum "+sym_mqRankSum+str(mqRankSum)+" || ReadPosRankSum "+sym_readPosRankSum+str(readPosRankSum)+" || SOR "+sym_sor+str(sor)+"' -O z -o " + v.vcf + "INDEL/POST_FILTRE/outputIndelFiltrer.vcf.gz " + v.vcf + "INDEL/outputINDEL.vcf.gz"
 			os.system(cmd)
 
