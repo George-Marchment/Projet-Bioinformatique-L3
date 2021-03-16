@@ -19,7 +19,7 @@ telechargementGVCF= False
 createBbOutput = False
 
 telechargementFiltreSNP = True
-telechargementFiltreINDEL = False
+telechargementFiltreINDEL = True
 
 sansFiltre= True
 avecFiltre= True
@@ -31,17 +31,17 @@ imageCouv = False
 
 nbDonnees = True
 
-imageSansFiltreSNP = False
+imageSansFiltreSNP = True
 
-imageSansFiltreINDEL = False
+imageSansFiltreINDEL = True
 
-imageSNP = False
+imageSNP = True
 
-imageIndel = False
+imageIndel = True
 
 #Definition of the different values of the filtre
 #The name of the filter is always to the left of the comparaison, for ewample: "QD > 3"
-filtre={'QD': ['>', 90.0], 'FS': ['<', 1.0], 'MQ': ['<', 1.0],
+filtre={'QD': ['>', 30.0], 'FS': ['<', 1.0], 'MQ': ['<', 1.0],
 	 'MQRankSum': ['<', 1.0], 'ReadPosRankSum': ['>=', 0.0], 'SOR': ['<', 1.0]}
 
 #Number of fastq files to download +  continue to 'work' in the pipeline

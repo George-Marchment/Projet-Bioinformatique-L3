@@ -158,9 +158,15 @@ def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees,imageSansFiltreSNP
 		txt = "Avant Filtres SNP: " + line[0]
 		fichierFinal.write(txt)
 		inter.close()
-		
-		cmd = "bcftools view -H " + v.vcf + "SNP/POST_FILTRE/outputSnpFiltrer.vcf.gz |wc -l > nombre.txt"
+
+
+		#Creating vcf with only PASS 
+		cmd= "bcftools view -f PASS "+v.vcf + "SNP/POST_FILTRE/outputSnpFiltrer.vcf.gz > temp.vcf.gz"
 		os.system(cmd)
+		#Counting lignes without header
+		cmd = "bcftools view -H temp.vcf.gz |wc -l > nombre.txt"
+		os.system(cmd)
+		os.remove("temp.vcf.gz")
 		
 		inter = open("nombre.txt", "r")
 		line = inter.readlines()
@@ -168,6 +174,7 @@ def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees,imageSansFiltreSNP
 		fichierFinal.write(txt)
 		inter.close()
 		
+
 		cmd = "bcftools view -H " + v.vcf + "INDEL/outputINDEL.vcf.gz |wc -l > nombre.txt"
 		os.system(cmd)
 		
@@ -176,9 +183,16 @@ def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees,imageSansFiltreSNP
 		txt = "Avant Filtres INDEL: " + line[0]
 		fichierFinal.write(txt)
 		inter.close()
-		
-		cmd = "bcftools view -H " + v.vcf + "INDEL/POST_FILTRE/outputIndelFiltrer.vcf.gz |wc -l > nombre.txt"
+
+
+		#Creating vcf with only PASS 
+		cmd= "bcftools view -f PASS "+v.vcf + "INDEL/POST_FILTRE/outputIndelFiltrer.vcf.gz > temp.vcf.gz"
 		os.system(cmd)
+
+		#Counting lignes without header
+		cmd = "bcftools view -H temp.vcf.gz |wc -l > nombre.txt"
+		os.system(cmd)
+		os.remove("temp.vcf.gz")
 		
 		inter = open("nombre.txt", "r")
 		line = inter.readlines()
