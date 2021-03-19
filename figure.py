@@ -166,6 +166,7 @@ def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees,imageSansFiltreSNP
 		inter = open("nombre.txt", "r")
 		line = inter.readlines()
 		txt = "Avant Filtres SNP: " + line[0]
+		avantSNP= int(line[0])
 		fichierFinal.write(txt)
 		inter.close()
 
@@ -176,8 +177,13 @@ def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees,imageSansFiltreSNP
 		inter = open("nombre.txt", "r")
 		line = inter.readlines()
 		txt = "Apres Filtres SNP: " + line[0]
+		apresSNP= int(line[0])
+		fichierFinal.write(txt)
+		txt = "Pourcentage Filtré SNP: {:.2f}%\n".format(abs(apresSNP-avantSNP)/avantSNP*100)
 		fichierFinal.write(txt)
 		inter.close()
+
+
 		
 
 		cmd = "bcftools view -H " + v.vcf + "INDEL/outputINDEL.vcf.gz |wc -l > nombre.txt"
@@ -186,6 +192,7 @@ def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees,imageSansFiltreSNP
 		inter = open("nombre.txt", "r")
 		line = inter.readlines()
 		txt = "Avant Filtres INDEL: " + line[0]
+		avantINDEL= int(line[0])
 		fichierFinal.write(txt)
 		inter.close()
 
@@ -197,6 +204,9 @@ def mainFigure(tabFichier, imageMapping, imageCouv, nbDonnees,imageSansFiltreSNP
 		inter = open("nombre.txt", "r")
 		line = inter.readlines()
 		txt = "Apres Filtres INDEL: " + line[0]
+		apresINDEL= int(line[0])
+		fichierFinal.write(txt)
+		txt = "Pourcentage Filtré INDEL: {:.2f}%\n".format(abs(apresINDEL-avantINDEL)/avantINDEL*100)
 		fichierFinal.write(txt)
 		inter.close()
 		
