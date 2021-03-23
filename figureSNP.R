@@ -29,21 +29,17 @@ sym_sor=args[16]
 annot.file = entree
 annotations = read.table(annot.file, h=TRUE,na.strings=".")
 
+
+#On doit changer le sens des inégalités car ds l'un on veut enlever les donnees supérieures mais 
+#maintenant on regarde les valeurs qu'on a obtenu - A revoir niveau francais
 compare <- function(a, symbol, b){
 if(symbol=='<'){
-    return (a>b)
-}
-if(symbol=='>'){
-    return (a<b)
-}
-if(symbol=='<='){
     return (a>=b)
 }
-if(symbol=='>='){
+if(symbol=='>'){
     return (a<=b)
 }
 }
-
 
 # INITIALISATION DES SEUILS
 lim.QD = qd

@@ -43,11 +43,12 @@ imageIndel = True
 
 #Definition of the different values of the filtre
 #The name of the filter is always to the left of the comparaison, for ewample: "QD > 3"
-filtreSNP ={'QD': ['>=', 10.0], 'MQ': ['<=', 55.0], 'MQRankSumInf': ['<=', -3.0],
-	 'MQRankSumSup': ['>=', 3.0], 'ReadPosRankSumInf': ['<=', -2.0], 'ReadPosRankSumSup': ['>=', 2.0], 'SOR': ['>=', 2.0]}
+#On définit les filtres : on "met les valeurs qu'on ne veut pas garder"
+filtreSNP ={'QD': ['>', 22.0], 'MQ': ['<', 50.0], 'MQRankSumInf': ['<', -3.0],
+	 'MQRankSumSup': ['>', 3.0], 'ReadPosRankSumInf': ['<', -2.0], 'ReadPosRankSumSup': ['>', 2.0], 'SOR': ['>', 2.0]}
 
-filtreINDEL ={'QD': ['>=', 10.0], 'MQ': ['<=', 55.0], 'MQRankSumInf': ['<=', -3.0],
-	 'MQRankSumSup': ['>=', 3.0], 'ReadPosRankSumInf': ['<=', -2.0], 'ReadPosRankSumSup': ['>=', 2.0], 'SOR': ['>=', 2.0]}
+filtreINDEL ={'QD': ['>', 22.0], 'MQ': ['<', 50.0], 'MQRankSumInf': ['<', -3.0],
+	 'MQRankSumSup': ['>', 3.0], 'ReadPosRankSumInf': ['<', -2.0], 'ReadPosRankSumSup': ['>', 2.0], 'SOR': ['>', 2.0]}
 
 #Number of fastq files to download +  continue to 'work' in the pipeline
 #IMPORTANT: - the corresponding number of files will only download if 'telechargementFASTQ=True'

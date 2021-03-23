@@ -36,7 +36,7 @@ def mainFiltrationSNP(telechargementFiltreSNP, sansFiltre, avecFiltre, filtre):
 	filtre_readPosRankSumInf= " --filter-name \'ReadPosRankSumInf"+str(readPosRankSumInf)+"\' --filter-expression \"ReadPosRankSumInf"+sym_readPosRankSumInf+str(readPosRankSumInf)+"\""
 	filtre_readPosRankSumSup= " --filter-name \'ReadPosRankSumSup"+str(readPosRankSumSup)+"\' --filter-expression \"ReadPosRankSumSup"+sym_readPosRankSumSup+str(readPosRankSumSup)+"\""
 	
-	filtre_sor= " --filter-name \'SOR"+str(qd)+"\' --filter-expression \"SOR"+sym_sor+str(sor)+"\""
+	filtre_sor= " --filter-name \'SOR"+str(sor)+"\' --filter-expression \"SOR"+sym_sor+str(sor)+"\""
 	
 	filtres= filtre_qd+ filtre_mq+ filtre_mqRankSumInf+ filtre_mqRankSumSup+ filtre_readPosRankSumInf+ filtre_readPosRankSumSup+ filtre_sor
 

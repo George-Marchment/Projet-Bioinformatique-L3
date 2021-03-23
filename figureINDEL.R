@@ -55,15 +55,9 @@ lim.SOR = sor
 
 compare <- function(a, symbol, b){
 if(symbol=='<'){
-    return (a>b)
-}
-if(symbol=='>'){
-    return (a<b)
-}
-if(symbol=='<='){
     return (a>=b)
 }
-if(symbol=='>='){
+if(symbol=='>'){
     return (a<=b)
 }
 }
