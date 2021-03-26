@@ -11,7 +11,7 @@ def initialize():
     
     #------------------------ONLY VARIABLE TO CHANGE------------------------
     #-----------------------------------------------------------------------
-    utilisateur= "george" #george or clemence
+    utilisateur= "clemence" #george or clemence
     #-----------------------------------------------------------------------
     #-----------------------------------------------------------------------
     
@@ -50,7 +50,7 @@ def initialize():
     #The assignment of the different variables (the adresses used on both machines)
     if utilisateur == "george":
         print("")
-        print("L'utilsateur est George")
+        print("L'utilisateur est George")
         print("")
         adresseTelechargement= "/media/george/USB2GM/Projet_BioInformatique/Donnees/FASTQ/"
         adresseBwa= "/home/george/Bureau/bwa/"
@@ -65,39 +65,34 @@ def initialize():
         simple = "/media/george/USB2GM/Projet_BioInformatique/"
         adressePostMk = "/media/george/USB2GM/Projet_BioInformatique/Donnees/BAM/BAM_POST_MK/"  
         adresseGVCF = "/media/george/USB2GM/Projet_BioInformatique/Donnees/GVCF/"  
-        
-        #inutile
-        image = "/media/george/USB2GM/Projet_BioInformatique/Images"
-        
-        #Nouveau
         graphs= "/media/george/USB2GM/Projet_BioInformatique/Results/Graphs/"
         results= "/media/george/USB2GM/Projet_BioInformatique/Results/"
         vcf= "/media/george/USB2GM/Projet_BioInformatique/Donnees/VCF/" 
         
     elif utilisateur == "clemence":
+    	#Je travaille totalement sur mon ordinateur :
+    	#Uniquement besoin d'une variable qui me situe dans mon bon repertoire et les autres découle de celle-ci
         print("")
-        print("L'utilsateur est Clémence")
+        print("L'utilisateur est Clémence")
         print("")
+        #Adresse generale du projet
         simple = "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/"
-        donnees = "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Donnees/"
+        #Adresse utiles pour le fonctionnement du script
+        donnees =  simple + "Donnees/"
         adresseBDD = donnees
-        adresseTelechargement= "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Donnees/FASTQ/" 
-        adresseBwa= "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/bwa/"
-        geneRef= "../Donnees/Genome/S288C_reference_sequence_R64-2-1_20150113.fsa"
-        geneRefDossier= "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Donnees/Genome/"
+        adresseTelechargement = simple + "Donnees/FASTQ/" 
+        adresseBwa = simple + "bwa/"
+        geneRef = "../Donnees/Genome/S288C_reference_sequence_R64-2-1_20150113.fsa"
+        geneRefDossier = simple + "Donnees/Genome/"
         zipSam =  "../Donnees/SAM/"
-        bamRefPreMK= "../Donnees/BAM/BAM_PRE_MK/"
-        bamRefPostMK= "../Donnees/BAM/BAM_POST_MK/"
-        fichTxt = "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Donnees/BAM/"
-        adressePostMk = "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Donnees/BAM/BAM_POST_MK/"
-        adresseGVCF = "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Donnees/GVCF/"
-        
-        #Inutile
-        
-        #Nouvea => A VERIFIER 
-        graphs= "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Results/Graphs/"
-        results= "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Results/"
-        vcf= "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/Donnees/VCF/"
+        bamRefPreMK = "../Donnees/BAM/BAM_PRE_MK/"
+        bamRefPostMK = "../Donnees/BAM/BAM_POST_MK/"
+        fichTxt = simple + "Donnees/BAM/"
+        adressePostMk = simple + "Donnees/BAM/BAM_POST_MK/"
+        adresseGVCF = simple + "Donnees/GVCF/"
+        results = simple + "Results/"
+        graphs = simple + "Results/Graphs/"
+        vcf = simple + "Donnees/VCF/"
         
         
 

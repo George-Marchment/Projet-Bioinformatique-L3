@@ -8,6 +8,7 @@ import download
 import gvcf
 import filtrationSNP
 import filtrationINDEL
+import analyseSNP
 import os
 
 #Variable if you want to download the original FASTQs
@@ -40,6 +41,9 @@ imageSansFiltreINDEL = True
 imageSNP = True
 
 imageIndel = True
+
+pcaSNP = True
+#pcaINDEL = False
 
 #Definition of the different values of the filtre
 #The name of the filter is always to the left of the comparaison, for ewample: "QD > 3"
@@ -84,8 +88,14 @@ if __name__ == "__main__":
     #6 - Filtration INDEL
     filtrationINDEL.mainFiltrationINDEL(telechargementFiltreINDEL, sansFiltre, avecFiltre, filtreINDEL)
         
-    #7 - Secinde Figures 
+    #7 - Seconde Figures 
     figureDeux.mainFigureDeux(nbDonnees,imageSansFiltreSNP, imageSansFiltreINDEL, imageSNP, imageIndel, filtreSNP, filtreINDEL)
+    
+    #8 - PCA SNP
+    analyseSNP.mainAnalyseSNP(pcaSNP)
+    
+    #9 - PCA INDEL
+    # A voir ...
     
     #Set the jdk back to version 11.0
     #IMPORTANT: If the script stops during the execution (for whatever reason) make sure to set the jdk back to 11.0 manually with the same command line
