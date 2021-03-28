@@ -29,7 +29,7 @@ def unzip(nomDossier, nomUnzip):
 #It's different parmeters are:
 def mainDownload(telechargement=True, numD=-1):
     
-    #Tab corresponding to the names of the origianl fastq(.gz) files
+	#Tab corresponding to the names of the origianl fastq(.gz) files
 	tabNomFastq = []
  
 	print("DEBUT SCRIPT TELECHARCHEMENT")

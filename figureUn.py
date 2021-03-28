@@ -1,5 +1,5 @@
 #George Marchment + Clemence Sebe
-#Figure
+#Script Figure un
 import os
 import variables as v
 import matplotlib.pyplot as plt

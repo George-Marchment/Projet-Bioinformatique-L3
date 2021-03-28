@@ -1,5 +1,5 @@
 #George Marchment + Clemence Sebe
-#Script Filtration
+#Script Filtration SNP
 import os
 import variables as v
 

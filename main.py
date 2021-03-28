@@ -21,8 +21,8 @@ telechargementGVCF= False
 
 createBbOutput = False
 
-telechargementFiltreSNP = True
-telechargementFiltreINDEL = True
+telechargementFiltreSNP = False
+telechargementFiltreINDEL = False
 
 sansFiltre= True
 avecFiltre= True
@@ -32,15 +32,15 @@ imageMapping = False
 
 imageCouv = False
 
-nbDonnees = True
+nbDonnees = False
 
-imageSansFiltreSNP = True
+imageSansFiltreSNP = False
 
-imageSansFiltreINDEL = True
+imageSansFiltreINDEL = False
 
-imageSNP = True
+imageSNP = False
 
-imageIndel = True
+imageIndel = False
 
 pcaSNP = True
 #pcaINDEL = False
