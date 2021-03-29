@@ -89,6 +89,7 @@ def mainAnalyseSNP(analyse):
 		
 		#Arbre de distance
 		#On applique l'algo sur nos donnees
+		#UPGMA
 		arbre = a.UPGMA(a.read(sortie + "tabDonnees.txt"))   
 		
 		#Affichage 
@@ -96,6 +97,17 @@ def mainAnalyseSNP(analyse):
 		t = Tree(newick_tree)
 		ts = TreeStyle()
 		ts.show_branch_length = True
-		t.render(sortie + "treeSNP.png", w=180, units="mm", tree_style=ts)
+		t.render(sortie + "UPGMA_treeSNP.png", w=180, units="mm", tree_style=ts)
+		
+		#Autre arbre - autre méthode
+		#neighbor_joining
+		arbre = a.neighbor_joining(a.read(sortie + "tabDonnees.txt"))   
+		
+		#Affichage 
+		newick_tree = arbre
+		t = Tree(newick_tree)
+		ts = TreeStyle()
+		ts.show_branch_length = True
+		t.render(sortie + "NEIGHBOR_JOINING_treeSNP.png", w=180, units="mm", tree_style=ts)
 
 	print("FIN SCRIPT ANALYSE SNP")
