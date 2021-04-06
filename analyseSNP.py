@@ -27,7 +27,7 @@ def mainAnalyseSNP(analyse):
 	if analyse:
 		# R
 		print("PCA avec R")
-		cmd = "Rscript pca.R " + lien + " " + sortie
+		cmd = "Rscript pca.R " + lien + " " + sortie + " " + v.sample
 		os.system(cmd)
 		os.remove(sortie + "tmp.gds")
 		

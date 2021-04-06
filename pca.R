@@ -8,6 +8,7 @@ library(RColorBrewer)
 args = commandArgs(trailingOnly=TRUE)   #la liste des arguments donc arg1  arg2 et arg3
 entree = args[1]  #fichier sur lequel on travaille (adresse + nom)
 adresseSortie = args[2] #adresee ou l'on veut que les fichiers crées soient sauvegardes
+adresseSample = args[3]
 
 #------------------------------------------------------------------------
 #Lecture du fichier vcf et creation des fichiers pour le PCA
@@ -17,7 +18,7 @@ genofile <- snpgdsOpen(paste(adresseSortie,"tmp.gds",sep="", collapse=NULL))
 sample.id <- read.gdsn(index.gdsn(genofile, "sample.id"))
 
 #Lecture fichier cluster
-cluster.file = "Donnees/sample.txt"
+cluster.file = adresseSample
 annotations = read.table(cluster.file, h=TRUE,na.strings=".")
 clustering = c(annotations)
 
