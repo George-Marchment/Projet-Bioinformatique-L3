@@ -46,6 +46,7 @@ def initialize():
     global vcf
     global graphs
     global results
+    global sample 
     
     #The assignment of the different variables (the adresses used on both machines)
     if utilisateur == "george":
@@ -68,6 +69,7 @@ def initialize():
         graphs= "/media/george/USB2GM/Projet_BioInformatique/Results/Graphs/"
         results= "/media/george/USB2GM/Projet_BioInformatique/Results/"
         vcf= "/media/george/USB2GM/Projet_BioInformatique/Donnees/VCF/" 
+        sample = "/media/george/USB2GM/Projet_BioInformatique/Donnees/sample.txt"
         
     elif utilisateur == "clemence":
     	#Je travaille totalement sur mon ordinateur :
@@ -93,7 +95,7 @@ def initialize():
         results = simple + "Results/"
         graphs = simple + "Results/Graphs/"
         vcf = simple + "Donnees/VCF/"
-        
+        sample = simple + "Donnees/sample.txt"
         
 
     else:               

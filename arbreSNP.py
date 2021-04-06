@@ -11,8 +11,9 @@ def read(file):
     names=[]
     with open(file, "r") as text:
         lignes= text.readlines()
+        #print(lignes)
         for i in range(1, len(lignes)):
-            lignes[i]=lignes[i][2:]
+            lignes[i]=lignes[i]
             lignes[i]=lignes[i].strip()
             #print(lignes[i])
             lignes[i]=lignes[i].split(' ')

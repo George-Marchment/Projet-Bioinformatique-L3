@@ -21,8 +21,8 @@ telechargementGVCF= False
 
 createBbOutput = False
 
-telechargementFiltreSNP = False
-telechargementFiltreINDEL = False
+telechargementFiltreSNP = True
+telechargementFiltreINDEL = True
 
 sansFiltre= True
 avecFiltre= True
@@ -32,15 +32,15 @@ imageMapping = False
 
 imageCouv = False
 
-nbDonnees = False
+nbDonnees = True
 
-imageSansFiltreSNP = False
+imageSansFiltreSNP = True
 
-imageSansFiltreINDEL = False
+imageSansFiltreINDEL = True
 
-imageSNP = False
+imageSNP = True
 
-imageIndel = False
+imageIndel = True
 
 pcaSNP = True
 #pcaINDEL = False
@@ -48,7 +48,8 @@ pcaSNP = True
 #Definition of the different values of the filtre
 #The name of the filter is always to the left of the comparaison, for ewample: "QD > 3"
 #On définit les filtres : on "met les valeurs qu'on ne veut pas garder"
-filtreSNP ={'QD': ['>', 22.0], 'MQ': ['<', 50.0], 'MQRankSumInf': ['<', -3.0],
+# Pax ex: QD < 10 : on enleve les SNP qui ont QD < 10
+filtreSNP ={'QD': ['<', 10.0], 'MQ': ['<', 50.0], 'MQRankSumInf': ['<', -3.0],
 	 'MQRankSumSup': ['>', 3.0], 'ReadPosRankSumInf': ['<', -2.0], 'ReadPosRankSumSup': ['>', 2.0], 'SOR': ['>', 2.0]}
 
 filtreINDEL ={'QD': ['>', 22.0], 'MQ': ['<', 50.0], 'MQRankSumInf': ['<', -3.0],

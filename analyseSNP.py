@@ -6,9 +6,18 @@ import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib
 import arbreSNP as a
-from sklearn.cluster import KMeans
 from ete3 import Tree, TreeStyle
 
+def appartient(tab, nom):
+	for i in range (len(tab)):
+		if tab[i][0] == nom:
+			return True
+	return False
+def appartientBis(tab, nom):
+	for i in range (len(tab)):
+		if tab[i] == nom:
+			return True
+	return False
 
 def mainAnalyseSNP(analyse):
 	print("DEBUT SCRIPT ANALYSE SNP")
@@ -24,10 +33,9 @@ def mainAnalyseSNP(analyse):
 		
 		#Figure avec python
 		print("Figure avec Python")
-		
-		file = open(sortie + "tabDonnees.txt", 'r')
-		
+			
 		#Pallette de couleur "foncee"
+		marquer = ['o', 's', 'p', '*', '1', 'D','P', 'X']
 		colorNames = list(matplotlib.colors.cnames.keys())
 		cmap =[]
 		for i in range (len(colorNames)):
@@ -37,20 +45,22 @@ def mainAnalyseSNP(analyse):
 		cmap.append('brown')
 		
 		#Lecture fichier
+		file = open(sortie + "tabDonnees.txt", 'r')
 		line = file.readlines()
 		sample = []
 		dico = {}
 		for i in range(1,len(line)):
 			etude = line[i].split()
-			sample.append(etude[1])
-			dico.update({etude[1] : [float(etude[2]), float(etude[3])]})
+			sample.append(etude[0])
+			dico.update({etude[0] : [float(etude[1]), float(etude[2])]})
 		file.close()
 
+		"""
 		#Premiere image non zoomee
-		fig, ax = plt.subplots(figsize=(10, 10))
+		fig, ax = plt.subplots(figsize=(7, 8))
 		idx =0
 		for name in sample:
-			ax.scatter(dico[name][0], dico[name][1], label=name, color= cmap[idx])
+			ax.scatter(dico[name][0], dico[name][1], label=name, color= cmap[idx], marker=marquer[idx%len(marquer)])
 			idx += 1
 		ax.legend()
 		ax.set_title("PCA")
@@ -63,30 +73,45 @@ def mainAnalyseSNP(analyse):
 			ax.annotate(name,xy=(dico[name][0], dico[name][1])) 
 		ax.set_title("PCA")
 		plt.savefig(sortie +'PcaNonZoomeeAnnote.png')
+		"""
 
-		#Kmeans pour creer des clusters
-		X = []
-		for name in sample:
-			X.append([dico[name][0], dico[name][1]])
-		X = np.array(X)
-		
-		#on a choisit 4 clusters apres visualisations des premiers resultats
-		nbCluster = 4
-		y_pred = KMeans(n_clusters=nbCluster, random_state=5).fit_predict(X)
-
+		#Cluster 
+		file = open(v.sample ,'r')
+		line = file.readlines()
+		nomGroupe = []
+		titre = []
+		cluster = {}
+		idx = 0
+		for i in range(1,len(line)):
+			etude = line[i].split()
+			cluster.update({etude[0] : etude[1]})
+			if not appartient(nomGroupe, etude[1]):
+				nomGroupe.append([etude[1], idx])
+				titre.append(etude[1])
+				idx +=1
+		file.close()
+		def whichCouleur (c):
+			for i in range(len(nomGroupe)):
+				if c == nomGroupe[i][0]:
+					return nomGroupe[i][1]
+			return "ERROR"
+			
 		fig, ax = plt.subplots()
-		ax.scatter(X[:, 0], X[:, 1], c=y_pred)
-		ax.set_title("Kmeans")
-		plt.savefig(sortie +'Kmeans.png')
-
-
-		fichier = open(sortie +"infoCluster.txt", "w")
-		fichier.write(f"{nbCluster} clusters :\n")
-		for i in range (len(X)):
-			ecrire = sample[i] + " : " + str(y_pred[i]) + "\n"
-			fichier.write(ecrire)
-		fichier.close()
-		
+		couleur = ["blue", "red", "yellow", "green", "pink", "purple"]
+		marquer = ['o', 's', 'p', '*', 'H', 'D']
+		dejaVu = []
+		idx = 0
+		for name in sample:
+			idx = whichCouleur(cluster[name])
+			if not appartientBis(dejaVu, cluster[name]):
+				ax.scatter(dico[name][0], dico[name][1], color=couleur[idx], marker=marquer[idx%len(marquer)] ,label=cluster[name]) 
+				dejaVu.append(cluster[name])
+			else:
+				ax.scatter(dico[name][0], dico[name][1], color=couleur[idx], marker=marquer[idx%len(marquer)])
+		ax.legend()		
+		ax.set_title("Clustering")
+		plt.savefig(sortie +'Clustering.png')
+			
 		#Arbre de distance
 		#On applique l'algo sur nos donnees
 		#UPGMA
