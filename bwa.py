@@ -20,6 +20,7 @@ def mainBWA(telechargementBam, tabFichierNom):
 	# We will most likely decompose the script into multiple scripts later on
 	print("DEBUT SCRIPT BWA")
 		
+	#Retrieving names of files  
 	tabFichier=[]
 	for i in range(len(tabFichierNom)):
 		if(len(tabFichierNom[i])!=1):

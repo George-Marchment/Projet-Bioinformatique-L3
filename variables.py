@@ -11,7 +11,7 @@ def initialize():
     
     #------------------------ONLY VARIABLE TO CHANGE------------------------
     #-----------------------------------------------------------------------
-    utilisateur= "clemence" #george or clemence
+    utilisateur= "george" #george or clemence
     #-----------------------------------------------------------------------
     #-----------------------------------------------------------------------
     
@@ -19,8 +19,9 @@ def initialize():
     global adresseTelechargement
     #Address where the BWA folder is situated
     global adresseBwa
-    
+    #Address where the "Donnees" (Data) folder is situated
     global donnees
+    #Address to create database (For George it is on desktop since to write the database, we cannot use the usb stick)
     global adresseBDD
     #Address of the reference genome in relation to the BWA adress (variable declared just above: adresseBwa)
     global geneRef
@@ -32,20 +33,20 @@ def initialize():
     global bamRefPreMK
     #Address where the .bam files post MarkDuplicate will be created in relation to the BWA adress (adresseBwa)
     global bamRefPostMK
-    
-    
     #Temporary file adresses
     global fichTxt
     global simple
-    
-    # a faire 
+    #Address where the the .bam files are situated post MarkDuplicate
     global adressePostMk
+    #Address where the .g.vcf files are situtates
     global adresseGVCF 
-    global image
-    
+    #Adress where the .vcf files are situated
     global vcf
+    #Adress where the graphs are situated 
     global graphs
+    #Adress where the results are situated
     global results
+    #Adress where the sample.txt file is situated
     global sample 
     
     #The assignment of the different variables (the adresses used on both machines)
@@ -77,9 +78,7 @@ def initialize():
         print("")
         print("L'utilisateur est Clémence")
         print("")
-        #Adresse generale du projet
         simple = "/home/clemence/data/L3/S6/Projet-Bioinformatique-L3/"
-        #Adresse utiles pour le fonctionnement du script
         donnees =  simple + "Donnees/"
         adresseBDD = donnees
         adresseTelechargement = simple + "Donnees/FASTQ/" 

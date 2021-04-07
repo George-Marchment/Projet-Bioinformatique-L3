@@ -26,55 +26,41 @@ def unzip(nomDossier, nomUnzip):
 
 #Function that returns a tab corresponding to the names of the origianl fastq(.gz) files
 #It can also download the different fastq files thanks to the .ods file taken dirrectly of the ENA website
-#It's different parmeters are:
 def mainDownload(telechargement=True, numD=-1):
-    
 	#Tab corresponding to the names of the origianl fastq(.gz) files
 	tabNomFastq = []
- 
+
 	print("DEBUT SCRIPT TELECHARCHEMENT")
- 
 	#------------------1st step: reading the .ods file + creating the corresponding dictionnary---------------
 	fichierDonnees = open("donnees.txt", 'r')
- 
 	#'Spliting' the file from the lignes
 	lignes = fichierDonnees.readlines()
 	dicoDonnees = []
-	
 	#tableau pour avoir nom sample_alias
 	tabSampleAlias = []
- 	
 	#The original names of the columns 
 	prems = lignes[0].split('\t')
 	prems[-1] = prems[-1].strip() #enlever \n
- 
 	for i in range (1, len(lignes)):
-     
 		#'Spliting' the ligne from the '\tab'
 		temp = lignes[i].split('\t')
 		temp[-1] = temp[-1].strip()#removing '\n'
 		donnees = {}
-  
 		for j in range (len(prems)):
 			donnees.update({prems[j]: temp[j]})
-   
 		dicoDonnees.append(donnees)
-		  	
 	fichierDonnees.close()
 	
 	#------------------------Step 2 : Downloading file (optional) + filling tabNomFastq------------------------
 	#Saving current location
 	current_path= os.getcwd()
- 
 	#Setting new location to the adress the user wants the files to be downloaded
 	os.chdir(v.adresseTelechargement)
-
 	#Setting the number of fastq files to be downloaded and to be 'worked' further on in the pipepline
 	if(numD==-1):
 		nombreTelechargement= len(dicoDonnees)
 	else:
 		nombreTelechargement= numD
-  
 	#Downloading the files + adding the name of the files into tabNomFastq
 	for i in range (nombreTelechargement):
 		if telechargement:
@@ -122,13 +108,8 @@ def mainDownload(telechargement=True, numD=-1):
 				
     			#Adding name of the fastq file to tabNomFastq
 				tabNomFastq[-1].append(nameFastq)
-
 			else:
 				tabNomFastq=tabNomFastq[:-1]
-		
-    	
-				#supp .gz
-				#os.remove(nomDossier)
     
     #Returning to the original adress
 	os.chdir(current_path)

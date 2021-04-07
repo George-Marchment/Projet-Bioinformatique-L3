@@ -9,7 +9,7 @@ def mainFiltrationINDEL(telechargementFiltreINDEL, sansFiltre, avecFiltre, filtr
 	print("DEBUT SCRIPT FILTRATION INDEL")
 	current_path= os.getcwd()
 	
-    	#On récupère les filtre
+    #We recuperate the filters
 	qd= filtre['QD'][1]
 	mq= filtre['MQ'][1]
 	mqRankSumInf= filtre['MQRankSumInf'][1]
@@ -17,8 +17,8 @@ def mainFiltrationINDEL(telechargementFiltreINDEL, sansFiltre, avecFiltre, filtr
 	readPosRankSumInf= filtre['ReadPosRankSumInf'][1]
 	readPosRankSumSup= filtre['ReadPosRankSumSup'][1]
 	sor= filtre['SOR'][1]
- 
- 	#On récupère les synmboles de comparaison pour les filtres
+
+	#We recuperate the comparaisons symbols for the filters 
 	sym_qd= filtre['QD'][0]
 	sym_mq= filtre['MQ'][0]
 	sym_mqRankSumInf= filtre['MQRankSumInf'][0]
@@ -27,6 +27,7 @@ def mainFiltrationINDEL(telechargementFiltreINDEL, sansFiltre, avecFiltre, filtr
 	sym_readPosRankSumSup= filtre['ReadPosRankSumSup'][0]
 	sym_sor= filtre['SOR'][0]
     
+	#We set the filters to give to gatk VariantFiltration
 	filtre_qd= " --filter-name \'QD"+str(qd)+"\' --filter-expression \"QD"+sym_qd+str(qd)+"\""
 	filtre_mq= " --filter-name \'MQ"+str(mq)+"\' --filter-expression \"MQ"+sym_mq+str(mq)+"\""
 	
@@ -41,32 +42,30 @@ def mainFiltrationINDEL(telechargementFiltreINDEL, sansFiltre, avecFiltre, filtr
 	filtres= filtre_qd+ filtre_mq+ filtre_mqRankSumInf+ filtre_mqRankSumSup+ filtre_readPosRankSumInf+ filtre_readPosRankSumSup+ filtre_sor
 
 	if telechargementFiltreINDEL:
-		#On selectionne les INDEL 
+		#We select the INDELs 
 		cmd = "gatk SelectVariants -R " + v.geneRefDossier + "S288C_reference_sequence_R64-2-1_20150113.fasta" + " -V " +  v.vcf + "output.vcf.gz --select-type-to-include INDEL  -O " + v.vcf + "INDEL/outputINDEL.vcf.gz"
 		os.system(cmd)
 		
+		#Without Filter
 		if(sansFiltre):
-			#Extraire donnee pour figure : (meme colonne que ds l'exemple)
+			#Extract the data wanted (POS, QD ect..)
 			cmd = "bcftools query " + v.vcf + "INDEL/outputINDEL.vcf.gz -f '%CHROM\t%POS\t%REF\t%ALT\t%QD\t%FS\t%MQ\t%MQRankSum\t%ReadPosRankSum\t%SOR\t%DP\t%FILTER\n' > " + v.vcf + "INDEL/PRE_FILTRE/outputIndelNoFiltrer.txt"
 			os.system(cmd)
    
-			#Rajout legende premiere ligne
+			#Addition legend to the first line 
 			cmd = "sed -i '1iCHROM\tPOS\tREF\tALT\tQD\tFS\tMQ\tMQRankSum\tReadPosRankSum\tSOR\tDP\tFILTER\n' " + v.vcf + "INDEL/PRE_FILTRE/outputIndelNoFiltrer.txt"
 			os.system(cmd)	
 
+		#With filter
 		if(avecFiltre):
-      			#Filtration
-			#Les deux options en dessus pour les filtres
+      		#Set filters
 			cmd = "gatk VariantFiltration -R " + v.geneRefDossier + "S288C_reference_sequence_R64-2-1_20150113.fasta -V " + v.vcf + "INDEL/outputINDEL.vcf.gz -O " + v.vcf + "INDEL/POST_FILTRE/outputIndelFiltrer.vcf.gz"+filtres
 			
-			#cmd= "bcftools filter -e 'QD "+sym_qd+str(qd)+ " || FS "+sym_fs+str(fs)+" || MQ "+sym_mq+str(mq)+" || MQRankSum "+sym_mqRankSum+str(mqRankSum)+" || ReadPosRankSum "+sym_readPosRankSum+str(readPosRankSum)+" || SOR "+sym_sor+str(sor)+"' -O z -o " + v.vcf + "INDEL/POST_FILTRE/outputIndelFiltrer.vcf.gz " + v.vcf + "INDEL/outputINDEL.vcf.gz"
-			os.system(cmd)
-
-			#Extraire donnee pour figure : (meme colonne que ds l'exemple)
+			#Extract the data wanted (POS, QD ect..)
 			cmd = "bcftools query " + v.vcf + "INDEL/POST_FILTRE/outputIndelFiltrer.vcf.gz -f '%CHROM\t%POS\t%REF\t%ALT\t%QD\t%FS\t%MQ\t%MQRankSum\t%ReadPosRankSum\t%SOR\t%DP\t%FILTER\n' > " + v.vcf + "INDEL/POST_FILTRE/outputIndelFiltrer.txt"
 			os.system(cmd)	
 			
-			#Rajout legende premiere ligne
+			#Addition legend to the first line 
 			cmd = "sed -i '1iCHROM\tPOS\tREF\tALT\tQD\tFS\tMQ\tMQRankSum\tReadPosRankSum\tSOR\tDP\tFILTER' " + v.vcf + "INDEL/POST_FILTRE/outputIndelFiltrer.txt"
 			os.system(cmd)
 
