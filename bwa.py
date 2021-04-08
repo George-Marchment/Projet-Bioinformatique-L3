@@ -14,10 +14,10 @@ def unzip(nomDossier, nomUnzip):
 			shutil.copyfileobj(f_in, f_out)
 
 
+#Function that does everything from bwa to gatk MarkDuplicate (bwa index + bwa mem + samtools view + samtools sort + gatk MarkDuplicatesSpark)
 def mainBWA(telechargementBam, tabFichierNom):
 	
 	#IMPORTANT: this script is called bwa.py but it does many other thing
-	# We will most likely decompose the script into multiple scripts later on
 	print("DEBUT SCRIPT BWA")
 		
 	#Retrieving names of files  
@@ -48,6 +48,7 @@ def mainBWA(telechargementBam, tabFichierNom):
 		if telechargementBam :
 			print("----------------------BOUCLE BWA----------------------", i+1 , " sur " , len(tabFichier))
 			#.fastq -> .sam using ./bwa mem
+			#Aligne the sequences to the reference
 			print("Convertion du fichier : ", tabFichier[i] + ".fastq.gz", " en un fichier .sam")
 			nomZip = v.zipSam + tabFichier[i] + ".sam.gz"
 			if(len(tabFichierNom[i])!=1):
@@ -78,12 +79,12 @@ def mainBWA(telechargementBam, tabFichierNom):
 			cmd = "gatk MarkDuplicatesSpark -I " + v.bamRefPreMK+ trie + " -O "+ v.bamRefPostMK+fichierBam 
 			os.system(cmd)
 	  
-			#These should be "un"commented to conserve memory for tests we will leave them
+			#We remove some of the files created to conserve memory since they are no longer usefull
 			os.remove(nomZip)
 			os.remove(v.bamRefPreMK+fichierBam)
 			os.remove(v.bamRefPreMK+trie)
 		
-		#ajout ds tab pour la suite
+		#Adding the .bam files to a list to be able to use later on
 		tabFinish.append(fichierBam)
 
 	#Returning to the current path

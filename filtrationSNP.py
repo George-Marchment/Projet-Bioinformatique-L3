@@ -4,7 +4,7 @@ import os
 import variables as v
 
 
-
+#Function that extrats the SNPs and filters them using the filters set in main.py
 def mainFiltrationSNP(telechargementFiltreSNP, sansFiltre, avecFiltre, filtre):
 	print("DEBUT SCRIPT FILTRATION SNP")
 	current_path= os.getcwd()
@@ -30,13 +30,10 @@ def mainFiltrationSNP(telechargementFiltreSNP, sansFiltre, avecFiltre, filtre):
 	#We set the filters to give to gatk VariantFiltration
 	filtre_qd= " --filter-name \'QD"+str(qd)+"\' --filter-expression \"QD"+sym_qd+str(qd)+"\""
 	filtre_mq= " --filter-name \'MQ"+str(mq)+"\' --filter-expression \"MQ"+sym_mq+str(mq)+"\""
-	
 	filtre_mqRankSumInf= " --filter-name \'MQRankSumInf"+str(mqRankSumInf)+"\' --filter-expression \"MQRankSumInf"+sym_mqRankSumInf+str(mqRankSumInf)+"\""
 	filtre_mqRankSumSup= " --filter-name \'MQRankSumSup"+str(mqRankSumSup)+"\' --filter-expression \"MQRankSumSup"+sym_mqRankSumSup+str(mqRankSumSup)+"\""
-	
 	filtre_readPosRankSumInf= " --filter-name \'ReadPosRankSumInf"+str(readPosRankSumInf)+"\' --filter-expression \"ReadPosRankSumInf"+sym_readPosRankSumInf+str(readPosRankSumInf)+"\""
 	filtre_readPosRankSumSup= " --filter-name \'ReadPosRankSumSup"+str(readPosRankSumSup)+"\' --filter-expression \"ReadPosRankSumSup"+sym_readPosRankSumSup+str(readPosRankSumSup)+"\""
-	
 	filtre_sor= " --filter-name \'SOR"+str(sor)+"\' --filter-expression \"SOR"+sym_sor+str(sor)+"\""
 	
 	filtres= filtre_qd+ filtre_mq+ filtre_mqRankSumInf+ filtre_mqRankSumSup+ filtre_readPosRankSumInf+ filtre_readPosRankSumSup+ filtre_sor

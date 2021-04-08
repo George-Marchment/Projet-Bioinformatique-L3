@@ -69,7 +69,7 @@ if __name__ == "__main__":
     #3 - GVCF + VCF
     gvcf.mainGVCF(telechargementGVCF,createBbOutput, tabFichierNomNew, tabFichierBam, tabSampleAlias)
 
-    #4 - First Graphs
+    #4 - Graphs Mapping anc Couverture
     figureUn.mainFigureUn(tabFichierNomNew, imageMapping, imageCouv)
 
     #5 - SNP Filters

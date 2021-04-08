@@ -8,6 +8,7 @@ import matplotlib
 import arbreSNP as a
 from ete3 import Tree, TreeStyle
 
+#Functions that check if a 'name' is in a list
 def appartient(tab, nom):
 	for i in range (len(tab)):
 		if tab[i][0] == nom:
@@ -19,22 +20,24 @@ def appartientBis(tab, nom):
 			return True
 	return False
 
+#Function that creates the Clusters and Trees
 def mainAnalyseSNP(analyse):
 	print("DEBUT SCRIPT ANALYSE SNP")
 	lien = v.vcf + "SNP/POST_FILTRE/SNP_PASS.vcf"
 	sortie = v.graphs + "SNP/"
 	
 	if analyse:
-		# R
+		#Start the PCA analyse using our R script 
 		print("PCA avec R")
 		cmd = "Rscript pca.R " + lien + " " + sortie + " " + v.sample
 		os.system(cmd)
+		#Removing tmp.gds
 		os.remove(sortie + "tmp.gds")
 		
-		#Figure avec python
+		#Graphs with python
 		print("Figure avec Python")
 			
-		#Pallette de couleur "foncee"
+		#'Dark' color palette
 		marquer = ['o', 's', 'p', '*', '1', 'D','P', 'X']
 		colorNames = list(matplotlib.colors.cnames.keys())
 		cmap =[]
@@ -44,7 +47,7 @@ def mainAnalyseSNP(analyse):
 		cmap.append('aqua')
 		cmap.append('brown')
 		
-		#Lecture fichier
+		#Read and extract the tabDonnees.txt file to a dictionnary
 		file = open(sortie + "tabDonnees.txt", 'r')
 		line = file.readlines()
 		sample = []
@@ -55,27 +58,7 @@ def mainAnalyseSNP(analyse):
 			dico.update({etude[0] : [float(etude[1]), float(etude[2])]})
 		file.close()
 
-		"""
-		#Premiere image non zoomee
-		fig, ax = plt.subplots(figsize=(7, 8))
-		idx =0
-		for name in sample:
-			ax.scatter(dico[name][0], dico[name][1], label=name, color= cmap[idx], marker=marquer[idx%len(marquer)])
-			idx += 1
-		ax.legend()
-		ax.set_title("PCA")
-		plt.savefig(sortie +'PcaNonZoomee.png')
-
-		#Teste image non zoommee annote
-		fig, ax = plt.subplots(figsize=(5, 5)) 
-		for name in sample:  
-			ax.scatter(dico[name][0], dico[name][1], s=100, alpha=0.5,linewidths=1, color='blue')  
-			ax.annotate(name,xy=(dico[name][0], dico[name][1])) 
-		ax.set_title("PCA")
-		plt.savefig(sortie +'PcaNonZoomeeAnnote.png')
-		"""
-
-		#Cluster 
+		#Creating the clustering 
 		file = open(v.sample ,'r')
 		line = file.readlines()
 		nomGroupe = []
@@ -90,12 +73,15 @@ def mainAnalyseSNP(analyse):
 				titre.append(etude[1])
 				idx +=1
 		file.close()
+
+		#Function that returns the color referencing the the cluster name
 		def whichCouleur (c):
 			for i in range(len(nomGroupe)):
 				if c == nomGroupe[i][0]:
 					return nomGroupe[i][1]
 			return "ERROR"
-			
+
+		#Writing the clusters to the graph (Clustering.png)
 		fig, ax = plt.subplots()
 		couleur = ["blue", "red", "yellow", "green", "pink", "purple"]
 		marquer = ['o', 's', 'p', '*', 'H', 'D']
@@ -111,25 +97,17 @@ def mainAnalyseSNP(analyse):
 		ax.legend()		
 		ax.set_title("Clustering")
 		plt.savefig(sortie +'Clustering.png')
-			
-		#Arbre de distance
-		#On applique l'algo sur nos donnees
+
+
+		#Creating the two 'handmade' trees using the UPGMA and Neighbor Joining algorithms		
 		#UPGMA
-		arbre = a.UPGMA(a.read(sortie + "tabDonnees.txt"))   
-		
-		#Affichage 
-		newick_tree = arbre
+		newick_tree = a.UPGMA(a.read(sortie + "tabDonnees.txt"))  
 		t = Tree(newick_tree)
 		ts = TreeStyle()
 		ts.show_branch_length = True
 		t.render(sortie + "UPGMA_treeSNP.png", w=180, units="mm", tree_style=ts)
-		
-		#Autre arbre - autre méthode
-		#neighbor_joining
-		arbre = a.neighbor_joining(a.read(sortie + "tabDonnees.txt"))   
-		
-		#Affichage 
-		newick_tree = arbre
+		#Neighbor Joining 
+		newick_tree = a.neighbor_joining(a.read(sortie + "tabDonnees.txt"))
 		t = Tree(newick_tree)
 		ts = TreeStyle()
 		ts.show_branch_length = True

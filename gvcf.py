@@ -6,7 +6,8 @@ import os
 import variables as v
 
 
-
+#Function that does everything from gatk CreateSequenceDictionary to gatk GenotypeGVCFs
+#At the end of the function we have a .vcf containing a summary of all the sample 
 def mainGVCF(telechargementGVCF, createBbOutput, tabFichierNom, tabFichierBam, tabSampleAlias):
 	print("DEBUT SCRIPT GVCF")
 	
@@ -27,7 +28,6 @@ def mainGVCF(telechargementGVCF, createBbOutput, tabFichierNom, tabFichierBam, t
 		print("Creation fichier utilse pour HaplotypeCaller")
 		cmd = "gatk CreateSequenceDictionary -R " + fasta
 		os.system(cmd)
-		#Indexes or queries regions from a fasta file 
 		cmd = "samtools faidx " + fasta
 		os.system(cmd)
 		
@@ -35,6 +35,7 @@ def mainGVCF(telechargementGVCF, createBbOutput, tabFichierNom, tabFichierBam, t
 		fichier = open(v.donnees + "cohort.sample_map", "a")
 		
 		# .bam => .g.vcf using HaplotypeCaller
+		#Extract variants for every sample
 		os.chdir(current_path)
 		for i in range (len(tabFichierBam)):
 			print("----------------------BOUCLE HAPlOTYPECALLER----------------------", i+1 , " sur " , len(tabFichierBam)) 

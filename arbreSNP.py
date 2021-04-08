@@ -2,6 +2,9 @@
 #Script Fonction aidant aux arbres
 import numpy as np
 
+#ALL the comments in this script are written in French
+#Here is a handy link: https://translate.google.fr/?sl=fr&tl=en&op=translate
+
 #-----------------------------------------------------------------------
 def distance_euclidienne(a, b):
     return np.sqrt((a[0]-b[0])**2+(a[1]-b[1])**2)

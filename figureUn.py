@@ -5,10 +5,7 @@ import variables as v
 import matplotlib.pyplot as plt
 import numpy as np
 
-
-
-
-
+#Function that creates all the function correspondint to the mapping and 'couverture' data
 def mainFigureUn(tabFichier, imageMapping, imageCouv):
 	print("DEBUT SCRIPT FIGURE UN")
 	current_path= os.getcwd()
@@ -20,16 +17,14 @@ def mainFigureUn(tabFichier, imageMapping, imageCouv):
 	tabBedMean = []
 	den, num = 0, 0
 
-
 	if imageMapping or imageCouv:
 		for i in range (len(tabFichier)):
 			print("----------------- Figure ", i+1 , " sur ", len(tabFichier) , "---------------------")
 			os.chdir(v.adresseBwa)
 			fichierBam = tabFichier[i] + ".bam"
 			
+			#Extracting the Mapping data to do this we use samtools flagstat
 			if imageMapping:
-				#Mapping
-				#---------------------------------------------------------------
 				print("Samtools flagstat + creation fichier txt")
 				flag = tabFichier[i] + ".txt"
 				cmd = "samtools flagstat " + v.bamRefPostMK+fichierBam + " > " +  v.fichTxt + flag
@@ -49,9 +44,8 @@ def mainFigureUn(tabFichier, imageMapping, imageCouv):
 				tabFigMapping.append(float(num))
 				file.close()
 
+			#Extracting the 'couverture' data to do this we use bedtools genomecov
 			if imageCouv:
-				#BedTools
-				#-------------------------------------------------------------------
 				print("Bedtools pour calculer max, min, moyenne de la couverture")
 				os.chdir(v.adresseBwa)
 				bedfile = tabFichier[i] + "_bed.txt"
@@ -70,30 +64,38 @@ def mainFigureUn(tabFichier, imageMapping, imageCouv):
 				file.close()
 				tabBedMean.append(den/num)
 
-
+	#Jumping to the adress to create the corresponding Graphs
 	os.chdir(v.simple)
-	
+	#Creating the Mapping graphs
 	if imageMapping:
 		print('Figure Mapping')
 		os.chdir(v.graphs+"General/")
+		#1st
 		fig,ax = plt.subplots()
 		ax.plot(tabFigMapping,"o-")
 		ax.set_title("Pourcentage de donnees qui mappent sur les 26 échantillons")
+		ax.set_xlabel('Echantillons')
+		ax.set_ylabel('Pourcentage de mapping')
 		plt.savefig('MappingCourbe.png')
-		
+		#2nd
 		fig,ax = plt.subplots()
 		plt.hist(tabFigMapping)
 		ax.set_title("Histogramme Mapping")
+		ax.set_xlabel('Pourcentage de Couverture')
+		ax.set_ylabel("Nombre d'échantillons")
 		plt.savefig('MappingHisto.png')
-
+	#Creating the 'Couverture' graph
 	if imageCouv:
 		print("Figure pour bedtools")
 		os.chdir(v.graphs+"General/")
 		fig,ax = plt.subplots()
 		ax.plot(tabBedMean, "o-")
 		ax.set_title("Couverture moyenne des 26 échantillons")
+		ax.set_xlabel('Echantillons')
+		ax.set_ylabel('Pourcentage de Couverture')
 		plt.savefig('CouvertureMoyenne.png')
 	
+	#Returning to the original adress
 	os.chdir(current_path)
 
 	print("FIN SCRIPT FIGURE UN")
