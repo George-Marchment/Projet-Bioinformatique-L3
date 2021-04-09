@@ -1,0 +1,42 @@
+QD :
+Moyenne : 21.560444853223
+Mediane : 24.49
+Maximum : 42.7
+Minimum : 0.07
+Ecart-type : 9.36260445002048
+ 
+FS :
+Moyenne : 1.97852641603434
+Mediane : 0
+Maximum : 338.291
+Minimum : 0
+Ecart-type : 5.69634129200252
+ 
+MQ :
+Moyenne : 58.4804627500575
+Mediane : 60
+Maximum : 60
+Minimum : 20
+Ecart-type : 5.15024174934496
+ 
+MQRankSum :
+Moyenne : -0.123447847150512
+Mediane : 0
+Maximum : 11
+Minimum : -11
+Ecart-type : 0.753796140282548
+ 
+ReadPosRankSum :
+Moyenne : 0.128303341902314
+Mediane : 0
+Maximum : 9
+Minimum : -7
+Ecart-type : 0.741546150994055
+ 
+SOR :
+Moyenne : 0.907818870238369
+Mediane : 0.77
+Maximum : 11.864
+Minimum : 0.002
+Ecart-type : 0.612916100406835
+ 

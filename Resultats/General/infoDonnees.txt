@@ -1,0 +1,7 @@
+Nombre total de Samples: 288314
+Avant Filtres SNP: 260940
+Apres Filtres SNP: 202048
+Pourcentage Filtré SNP: 22.57%
+Avant Filtres INDEL: 24351
+Apres Filtres INDEL: 16224
+Pourcentage Filtré INDEL: 33.37%
