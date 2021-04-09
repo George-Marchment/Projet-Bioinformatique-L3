@@ -4,7 +4,7 @@
 
 ## Pipeline de Préparation et d'Analyse de données de génomes 
 
-###### George Marchment - Clémence Sebe 
+## George Marchment - Clémence Sebe 
 
 
 ## But de ce projet : 
@@ -36,7 +36,7 @@ Graphique représentant les vingt-six échantillons selon leur groupe d’appart
 
 Arbre phylogénique de nos vingt-six échantillons avec comme couleur leur groupe caractéristique
 
-##Conclusion : 
+## Conclusion : 
 
 A partir des graphiques obtenus, nous pouvons émettre plusieurs conclusions.
 
@@ -46,5 +46,5 @@ La **dernière figure** représente l’arbre phylogénique de nos vingt-six éc
 
 En comparant **ces deux images**, on retrouve bien ces résultats. Les groupes de Cachaça1 et Wine sont très proches  sur les deux figures. De plus, on retrouve bien un élément de CachaçaMosaics parmi les Bread. BrazilB1 est bien éloigné des autres groupes. Pour finir Cachaça2 est lui aussi bien étalé mais reste proche, et possède un plus proche ancêtre avec Wine et Cachaça1.
 
-D'autres résultats se trouvent dans le dossier : *Resultats*
+D'autres résultats se trouvent dans le dossier : [Resultats](https://github.com/George-Marchment/Projet-Bioinformatique-L3/tree/main/Resultats)
 
