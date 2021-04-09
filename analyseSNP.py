@@ -97,8 +97,7 @@ def mainAnalyseSNP(analyse):
 		ax.legend()		
 		ax.set_title("Clustering")
 		plt.savefig(sortie +'Clustering.png')
-
-
+		
 		#Creating the two 'handmade' trees using the UPGMA and Neighbor Joining algorithms		
 		#UPGMA
 		newick_tree = a.UPGMA(a.read(sortie + "tabDonnees.txt"))  

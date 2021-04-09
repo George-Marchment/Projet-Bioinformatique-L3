@@ -1,9 +1,10 @@
+#George Marchment + Clemence Sebe
 #R script pour faire des distributions
 #!/usr/bin/env Rscript
 library(lattice)
 library(VennDiagram)
 
-#Script creating the graphs for the Filterd INDEL samples
+#Script creating the graphs for the Filterd SNP samples
 
 #Retrieving Arguments given by the python script
 args = commandArgs(trailingOnly=TRUE)   
@@ -37,7 +38,7 @@ if(symbol=='<'){
     return (a>=b)
 }
 if(symbol=='>'){
-    return (a=<b)
+    return (a<=b)
 }
 if(symbol=='<='){
     return (a>b)

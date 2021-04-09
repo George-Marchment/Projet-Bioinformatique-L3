@@ -32,7 +32,7 @@ def mainGVCF(telechargementGVCF, createBbOutput, tabFichierNom, tabFichierBam, t
 		os.system(cmd)
 		
 		#rajouter lien pour cohort
-		fichier = open(v.donnees + "cohort.sample_map", "a")
+		#fichier = open(v.donnees + "cohort.sample_map", "a")
 		
 		# .bam => .g.vcf using HaplotypeCaller
 		#Extract variants for every sample

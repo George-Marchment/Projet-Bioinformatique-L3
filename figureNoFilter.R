@@ -1,3 +1,4 @@
+#George Marchment + Clemence Sebe
 #R script pour faire des distributions
 #!/usr/bin/env Rscript
 library(lattice)

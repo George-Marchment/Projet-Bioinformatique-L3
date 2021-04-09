@@ -57,6 +57,7 @@ def mainFiltrationINDEL(telechargementFiltreINDEL, sansFiltre, avecFiltre, filtr
 		if(avecFiltre):
       		#Set filters
 			cmd = "gatk VariantFiltration -R " + v.geneRefDossier + "S288C_reference_sequence_R64-2-1_20150113.fasta -V " + v.vcf + "INDEL/outputINDEL.vcf.gz -O " + v.vcf + "INDEL/POST_FILTRE/outputIndelFiltrer.vcf.gz"+filtres
+			os.system(cmd)
 			
 			#Extract the data wanted (POS, QD ect..)
 			cmd = "bcftools query " + v.vcf + "INDEL/POST_FILTRE/outputIndelFiltrer.vcf.gz -f '%CHROM\t%POS\t%REF\t%ALT\t%QD\t%FS\t%MQ\t%MQRankSum\t%ReadPosRankSum\t%SOR\t%DP\t%FILTER\n' > " + v.vcf + "INDEL/POST_FILTRE/outputIndelFiltrer.txt"

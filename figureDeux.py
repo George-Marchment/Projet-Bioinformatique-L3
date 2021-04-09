@@ -164,6 +164,7 @@ def mainFigureDeux(nbDonnees,imageSansFiltreSNP, imageSansFiltreINDEL, imageSNP,
 		fichierFinal.close()
 		#Removing nombre.txt cause no longer usefull
 		os.remove("nombre.txt")
+		
 	#Returning to the original path	
 	os.chdir(current_path)
 
@@ -200,6 +201,5 @@ def mainFigureDeux(nbDonnees,imageSansFiltreSNP, imageSansFiltreINDEL, imageSNP,
 		os.system(cmd)
 		#Calling function definied at the beginning
 		traceIndel(v.vcf + "INDEL/POST_FILTRE/INDEL_PASS.txt", v.graphs+"INDEL/Filter/")
-
 
 	print("FIN SCRIPT FIGURE DEUX")

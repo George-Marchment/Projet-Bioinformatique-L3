@@ -66,6 +66,7 @@ def mainFigureUn(tabFichier, imageMapping, imageCouv):
 
 	#Jumping to the adress to create the corresponding Graphs
 	os.chdir(v.simple)
+	
 	#Creating the Mapping graphs
 	if imageMapping:
 		print('Figure Mapping')
@@ -84,6 +85,7 @@ def mainFigureUn(tabFichier, imageMapping, imageCouv):
 		ax.set_xlabel('Pourcentage de Couverture')
 		ax.set_ylabel("Nombre d'échantillons")
 		plt.savefig('MappingHisto.png')
+		
 	#Creating the 'Couverture' graph
 	if imageCouv:
 		print("Figure pour bedtools")
@@ -92,7 +94,7 @@ def mainFigureUn(tabFichier, imageMapping, imageCouv):
 		ax.plot(tabBedMean, "o-")
 		ax.set_title("Couverture moyenne des 26 échantillons")
 		ax.set_xlabel('Echantillons')
-		ax.set_ylabel('Pourcentage de Couverture')
+		ax.set_ylabel('Couverture Moyenne')
 		plt.savefig('CouvertureMoyenne.png')
 	
 	#Returning to the original adress
