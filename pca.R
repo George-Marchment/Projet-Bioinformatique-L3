@@ -49,13 +49,14 @@ plot(x=PCA$eigenvect[,1], y=PCA$eigenvect[,2], main=paste("PCA (SNPRelate, no pr
         pch=0:25, col=col.vector)
 
 legend("topright",legend = sample.id , pch=0:25, col=col.vector, ncol=2)
+
 #Clustering
 plot(x=PCA$eigenvect[,1], y=PCA$eigenvect[,2], main=paste("PCA (SNPRelate, no projection, ",length(PCA$snp.id)," SNPs) \n Clustering",sep=""), 
 	xlab=paste("PC1 (",round(as.numeric(colnames(PCA$eigenvect)[1])*100,2),"%)",sep=""), 
        ylab=paste("PC2 (",round(as.numeric(colnames(PCA$eigenvect)[2])*100,2),"%)",sep=""),
-      pch="o", col=as.integer(annotations$Groupe))
+      pch=as.integer(annotations$Groupe), col=as.integer(annotations$Groupe))
       
-legend("topright",legend = levels(annotations$Groupe),pch="o", col=1:6, ncol=2)    
+legend("topright",legend = levels(annotations$Groupe),pch=1:6, col=1:6, ncol=2)    
 dev.off()
 
 #Creating list du give back to the python script => we write it to tabDonnes.txt to be able to recuperate it later on

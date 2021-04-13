@@ -24,8 +24,8 @@ telechargementGVCF= False
 createBbOutput = False
 
 #Variable if you want to filtre the SNPs and/or INDELs
-telechargementFiltreSNP = True
-telechargementFiltreINDEL = True
+telechargementFiltreSNP = False
+telechargementFiltreINDEL = False
 
 #Variable if you want to the SNPs and/or INDELs with or without Filters
 sansFiltre= True
@@ -36,15 +36,15 @@ imageMapping = False
 imageCouv = False
 
 #Variable to create file including data informations
-nbDonnees = True
+nbDonnees = False
 
 #Variable to create venne graphs (filters)
-imageSansFiltreSNP = True
-imageSansFiltreINDEL = True
+imageSansFiltreSNP = False
+imageSansFiltreINDEL = False
 
 #Variable to create filter grahs
-imageSNP = True
-imageIndel = True
+imageSNP = False
+imageIndel = False
 
 #Variable to do PCA and create trees and clustering
 pcaSNP = True
