@@ -15,7 +15,7 @@ Analyser des génomes de levures domestiquées et naturelles pour estimer leur h
 
 Nous avons conçu un pipeline de préparation et d’analyses de données. Notre script permet le téléchargement des données, en effectue l'analyse  et présente sous forme d'images les résultats.
 
-Lien vers notre rapport : (à rajouter quand tout est ok)
+Lien vers notre rapport : [Rapport](https://github.com/George-Marchment/Projet-Bioinformatique-L3/blob/main/Marchment_Sebe_rapport.pdf)
 
 ## Résultats : 
 
