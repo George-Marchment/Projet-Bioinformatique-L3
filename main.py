@@ -12,39 +12,39 @@ import analyseSNP
 import os
 
 #Variable if you want to download the original FASTQs
-telechargementFASTQ= False
+telechargementFASTQ= True
 
 #Variable if you want to create the .bam files
-telechargementBAM= False
+telechargementBAM= True
 
 #Variable if you want to create the .g.vcf files
-telechargementGVCF= False
+telechargementGVCF= True
 
 #Variable if you want to create the database and .vcf files
-createBbOutput = False
+createBbOutput = True
 
 #Variable if you want to filtre the SNPs and/or INDELs
-telechargementFiltreSNP = False
-telechargementFiltreINDEL = False
+telechargementFiltreSNP = True
+telechargementFiltreINDEL = True
 
 #Variable if you want to the SNPs and/or INDELs with or without Filters
 sansFiltre= True
 avecFiltre= True
 
 #Variable to create the different graphs
-imageMapping = False
-imageCouv = False
+imageMapping = True
+imageCouv = True
 
 #Variable to create file including data informations
-nbDonnees = False
+nbDonnees = True
 
 #Variable to create venne graphs (filters)
-imageSansFiltreSNP = False
-imageSansFiltreINDEL = False
+imageSansFiltreSNP = True
+imageSansFiltreINDEL = True
 
 #Variable to create filter grahs
-imageSNP = False
-imageIndel = False
+imageSNP = True
+imageIndel = True
 
 #Variable to do PCA and create trees and clustering
 pcaSNP = True
